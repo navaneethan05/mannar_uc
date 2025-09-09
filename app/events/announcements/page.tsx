@@ -5,6 +5,7 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Megaphone, AlertTriangle, Clock, MapPin, Calendar, Filter } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function AnnouncementsPage() {
   const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly">("all")
@@ -107,6 +108,7 @@ export default function AnnouncementsPage() {
       <Navigation />
 
       <main>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Events", href: "/events" }, { label: "Announcements" }]} />
         {/* Hero Section */}
         <section className="section-x bg-gradient-to-br from-red-600 to-red-800">
           <div className="container-x text-center">
