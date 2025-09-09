@@ -96,12 +96,12 @@ export default function GalleryPage() {
   ]
 
   const [selectedCategory, setSelectedCategory] = useState<string>("All")
-  const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly" | "yearly">("all")
+  const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly">("all")
   const [visible, setVisible] = useState(6)
 
   const filtered = useMemo(() => {
     const now = new Date()
-    const limitDays = timeFilter === "weekly" ? 7 : timeFilter === "monthly" ? 30 : timeFilter === "yearly" ? 365 : 0
+    const limitDays = timeFilter === "weekly" ? 7 : timeFilter === "monthly" ? 30 : 0
 
     return photos.filter((p) => {
       const inCategory = selectedCategory === "All" || p.category === selectedCategory
@@ -165,10 +165,9 @@ export default function GalleryPage() {
 
             <div className="flex flex-wrap gap-3">
               {[
-                { key: "all", label: "All Time" },
+                { key: "all", label: "All" },
                 { key: "weekly", label: "Weekly" },
                 { key: "monthly", label: "Monthly" },
-                { key: "yearly", label: "Yearly" },
               ].map((t) => (
                 <button
                   key={t.key}
