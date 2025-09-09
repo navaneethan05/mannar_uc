@@ -2,6 +2,7 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { FileText, ArrowRight } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function PublicNoticesInfoPage() {
   return (
@@ -9,6 +10,7 @@ export default function PublicNoticesInfoPage() {
       <TopBar />
       <Navigation />
       <main>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Information", href: "/info" }, { label: "Public Notices" }]} />
         <section className="section-x bg-gradient-to-br from-orange-600 to-orange-800">
           <div className="container-x text-center">
             <FileText className="w-16 h-16 text-white mx-auto mb-4" />
