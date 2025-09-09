@@ -6,6 +6,7 @@ import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ArrowLeft, Calendar, Download, AlertCircle, FileText, Clock, Filter } from "lucide-react"
 import Link from "next/link"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function NoticesPage() {
   const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly">("all")
@@ -123,17 +124,7 @@ export default function NoticesPage() {
       <main className="section-x py-8">
         <div className="container-x">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link href="/" className="hover:text-brand-blue">
-              Home
-            </Link>
-            <span>/</span>
-            <Link href="/events" className="hover:text-brand-blue">
-              Events
-            </Link>
-            <span>/</span>
-            <span className="text-brand-blue font-medium">Notices</span>
-          </div>
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Events", href: "/events" }, { label: "Notices" }]} />
 
           {/* Back Button */}
           <Link href="/events" className="inline-flex items-center gap-2 text-brand-blue hover:text-brand-blue/80 mb-6">
