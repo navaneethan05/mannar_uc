@@ -8,6 +8,15 @@ export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
+  const go = (href: string) => {
+    try {
+      setOpenDropdown(null)
+      if (typeof window !== "undefined") {
+        window.location.assign(href)
+      }
+    } catch (_) {}
+  }
+
   const baseItems = [
     { name: "Home", href: "/" },
     { name: "Chairman", href: "/chairman" },
@@ -80,8 +89,12 @@ export function Navigation() {
                   <a
                     key={item.name}
                     href={item.href}
+                    role="menuitem"
                     className="block px-4 py-2 text-primary hover:bg-gray-50"
-                    onClick={() => setOpenDropdown(null)}
+                    onMouseDown={(e) => {
+                      e.preventDefault()
+                      go(item.href)
+                    }}
                   >
                     {item.name}
                   </a>
@@ -110,8 +123,12 @@ export function Navigation() {
                   <a
                     key={item.name}
                     href={item.href}
+                    role="menuitem"
                     className="block px-4 py-2 text-primary hover:bg-gray-50"
-                    onClick={() => setOpenDropdown(null)}
+                    onMouseDown={(e) => {
+                      e.preventDefault()
+                      go(item.href)
+                    }}
                   >
                     {item.name}
                   </a>
