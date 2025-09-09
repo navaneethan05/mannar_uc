@@ -1,9 +1,15 @@
+"use client"
+
+import { useMemo, useState } from "react"
 import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { Megaphone, AlertTriangle, Clock, MapPin, Calendar } from "lucide-react"
+import { Megaphone, AlertTriangle, Clock, MapPin, Calendar, Filter } from "lucide-react"
 
 export default function AnnouncementsPage() {
+  const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly">("all")
+  const [visible, setVisible] = useState(6)
+
   const announcements = [
     {
       title: "Water Supply Maintenance - Ward 3 & 4",
@@ -82,6 +88,19 @@ export default function AnnouncementsPage() {
     return priority === "urgent" || priority === "high" ? AlertTriangle : Megaphone
   }
 
+  const filtered = useMemo(() => {
+    const now = new Date()
+    const limitDays = timeFilter === "weekly" ? 7 : timeFilter === "monthly" ? 30 : 0
+    return announcements.filter((a) => {
+      if (limitDays === 0) return true
+      const diffDays = Math.floor((now.getTime() - new Date(a.date).getTime()) / (1000 * 60 * 60 * 24))
+      return diffDays <= limitDays
+    })
+  }, [timeFilter, announcements])
+
+  const visibleItems = filtered.slice(0, visible)
+  const hasMore = visible < filtered.length
+
   return (
     <div className="min-h-screen">
       <TopBar />
@@ -144,8 +163,36 @@ export default function AnnouncementsPage() {
         {/* Announcements List */}
         <section className="section-x">
           <div className="container-x">
+            <div className="card-x flex items-center justify-between mb-8">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Filter className="w-4 h-4" /> Filter by time
+              </div>
+              <div className="flex gap-2">
+                {[
+                  { key: "all", label: "All" },
+                  { key: "weekly", label: "Weekly" },
+                  { key: "monthly", label: "Monthly" },
+                ].map((t) => (
+                  <button
+                    key={t.key}
+                    onClick={() => {
+                      setTimeFilter(t.key as any)
+                      setVisible(6)
+                    }}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      timeFilter === (t.key as any)
+                        ? "bg-red-600 text-white"
+                        : "bg-white text-gray-700 hover:bg-red-50 border border-gray-200"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="space-y-6">
-              {announcements.map((announcement, index) => {
+              {visibleItems.map((announcement, index) => {
                 const PriorityIcon = getPriorityIcon(announcement.priority)
                 return (
                   <div
@@ -233,12 +280,21 @@ export default function AnnouncementsPage() {
             </div>
 
             <div className="text-center mt-12">
-              <a
-                href="/events/announcements/archive"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-colors"
-              >
-                View Archived Announcements
-              </a>
+              {hasMore ? (
+                <button
+                  onClick={() => setVisible((v) => v + 6)}
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-red-600 text-white hover:bg-red-700"
+                >
+                  Load More
+                </button>
+              ) : (
+                <a
+                  href="/events/announcements/archive"
+                  className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-colors"
+                >
+                  View Archived Announcements
+                </a>
+              )}
             </div>
           </div>
         </section>
