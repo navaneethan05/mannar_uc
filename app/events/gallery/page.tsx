@@ -4,7 +4,8 @@ import { useMemo, useState } from "react"
 import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { Camera, Calendar, MapPin, Users, Filter } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
+import { Camera, Calendar, MapPin, Users } from "lucide-react"
 
 type Photo = {
   title: string
@@ -18,15 +19,6 @@ type Photo = {
 }
 
 export default function GalleryPage() {
-  const categories = [
-    { name: "All", count: 150 },
-    { name: "Environment", count: 45 },
-    { name: "Youth Programs", count: 32 },
-    { name: "Public Events", count: 38 },
-    { name: "Council Ceremonies", count: 25 },
-    { name: "Community Outreach", count: 10 },
-  ]
-
   const photos: Photo[] = [
     {
       title: "Community Clean-up Drive 2024",
@@ -95,25 +87,19 @@ export default function GalleryPage() {
     },
   ]
 
-  const [selectedCategory, setSelectedCategory] = useState<string>("All")
-  const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly">("all")
-  const [visible, setVisible] = useState(6)
+  const [sort, setSort] = useState<"latest" | "oldest">("latest")
+  const [page, setPage] = useState(1)
+  const pageSize = 6
 
-  const filtered = useMemo(() => {
-    const now = new Date()
-    const limitDays = timeFilter === "weekly" ? 7 : timeFilter === "monthly" ? 30 : 0
+  const sorted = useMemo(() => {
+    const arr = [...photos]
+    arr.sort((a, b) => (sort === "latest" ? b.dateISO.localeCompare(a.dateISO) : a.dateISO.localeCompare(b.dateISO)))
+    return arr
+  }, [sort, photos])
 
-    return photos.filter((p) => {
-      const inCategory = selectedCategory === "All" || p.category === selectedCategory
-      if (!inCategory) return false
-      if (limitDays === 0) return true
-      const diffDays = Math.floor((now.getTime() - new Date(p.dateISO).getTime()) / (1000 * 60 * 60 * 24))
-      return diffDays <= limitDays
-    })
-  }, [photos, selectedCategory, timeFilter])
-
-  const visiblePhotos = filtered.slice(0, visible)
-  const hasMore = visible < filtered.length
+  const totalPages = Math.ceil(sorted.length / pageSize)
+  const start = (page - 1) * pageSize
+  const visiblePhotos = sorted.slice(start, start + pageSize)
 
   return (
     <div className="min-h-screen">
@@ -121,6 +107,8 @@ export default function GalleryPage() {
       <Navigation />
 
       <main>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Events", href: "/events" }, { label: "Gallery" }]} />
+
         {/* Hero Section */}
         <section className="section-x bg-gradient-to-br from-purple-600 to-purple-800">
           <div className="container-x text-center">
@@ -133,57 +121,36 @@ export default function GalleryPage() {
           </div>
         </section>
 
-        {/* Filter Categories */}
+        {/* Sort Bar */}
         <section className="section-x bg-gray-50">
           <div className="container-x">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-2xl font-bold text-brand-blue">Photo Categories</h2>
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Filter className="w-4 h-4" />
-                <span>Filter by category & time</span>
+            <div className="flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-brand-blue">Gallery</h2>
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">Filter:</span>
+                <button
+                  onClick={() => {
+                    setSort("latest")
+                    setPage(1)
+                  }}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    sort === "latest" ? "bg-purple-600 text-white" : "bg-white text-gray-700 border border-gray-200 hover:bg-purple-100"
+                  }`}
+                >
+                  Latest
+                </button>
+                <button
+                  onClick={() => {
+                    setSort("oldest")
+                    setPage(1)
+                  }}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    sort === "oldest" ? "bg-purple-600 text-white" : "bg-white text-gray-700 border border-gray-200 hover:bg-purple-100"
+                  }`}
+                >
+                  Oldest
+                </button>
               </div>
-            </div>
-
-            <div className="flex flex-wrap gap-3 mb-4">
-              {categories.map((category) => (
-                <button
-                  key={category.name}
-                  onClick={() => {
-                    setSelectedCategory(category.name)
-                    setVisible(6)
-                  }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    selectedCategory === category.name
-                      ? "bg-purple-600 text-white"
-                      : "bg-white text-gray-700 hover:bg-purple-100 border border-gray-200"
-                  }`}
-                >
-                  {category.name} ({category.count})
-                </button>
-              ))}
-            </div>
-
-            <div className="flex flex-wrap gap-3">
-              {[
-                { key: "all", label: "All" },
-                { key: "weekly", label: "Weekly" },
-                { key: "monthly", label: "Monthly" },
-              ].map((t) => (
-                <button
-                  key={t.key}
-                  onClick={() => {
-                    setTimeFilter(t.key as any)
-                    setVisible(6)
-                  }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    timeFilter === (t.key as any)
-                      ? "bg-purple-600 text-white"
-                      : "bg-white text-gray-700 hover:bg-purple-100 border border-gray-200"
-                  }`}
-                >
-                  {t.label}
-                </button>
-              ))}
             </div>
           </div>
         </section>
@@ -228,17 +195,31 @@ export default function GalleryPage() {
               ))}
             </div>
 
-            <div className="text-center mt-12">
-              {hasMore ? (
+            {/* Pagination */}
+            <div className="flex items-center justify-center gap-2 mt-12">
+              <button
+                className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+                disabled={page === 1}
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+              >
+                &lt;
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
                 <button
-                  onClick={() => setVisible((v) => v + 6)}
-                  className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-purple-600 text-white hover:bg-purple-700 transition-colors"
+                  key={p}
+                  onClick={() => setPage(p)}
+                  className={`px-3 py-1 rounded border ${p === page ? "bg-purple-600 text-white border-purple-600" : "border-gray-300 hover:bg-gray-50"}`}
                 >
-                  Load More Photos
+                  {p}
                 </button>
-              ) : (
-                <div className="text-gray-500">No more photos</div>
-              )}
+              ))}
+              <button
+                className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+                disabled={page === totalPages}
+                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              >
+                Next &gt;
+              </button>
             </div>
           </div>
         </section>
