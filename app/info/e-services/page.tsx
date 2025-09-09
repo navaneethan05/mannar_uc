@@ -2,6 +2,7 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Globe, ArrowRight } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function EServicesPage() {
   const services = [
@@ -15,6 +16,7 @@ export default function EServicesPage() {
       <TopBar />
       <Navigation />
       <main>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Information", href: "/info" }, { label: "e-Services" }]} />
         <section className="section-x bg-gradient-to-br from-purple-600 to-purple-800">
           <div className="container-x text-center">
             <Globe className="w-16 h-16 text-white mx-auto mb-4" />
