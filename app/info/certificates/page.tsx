@@ -2,6 +2,7 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { FileText, Download, Mail } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function CertificatesPage() {
   const docs = [
@@ -16,6 +17,7 @@ export default function CertificatesPage() {
       <TopBar />
       <Navigation />
       <main>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Information", href: "/info" }, { label: "Certificates & Permits" }]} />
         <section className="section-x bg-gradient-to-br from-blue-600 to-blue-800">
           <div className="container-x text-center">
             <FileText className="w-16 h-16 text-white mx-auto mb-4" />
