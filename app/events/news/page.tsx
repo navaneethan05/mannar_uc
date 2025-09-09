@@ -5,6 +5,7 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { ArrowLeft, Calendar, User, Clock, Filter } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 import Link from "next/link"
 import Image from "next/image"
 
@@ -76,17 +77,7 @@ export default function NewsPage() {
       <main className="section-x py-8">
         <div className="container-x">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link href="/" className="hover:text-brand-blue">
-              Home
-            </Link>
-            <span>/</span>
-            <Link href="/events" className="hover:text-brand-blue">
-              Events
-            </Link>
-            <span>/</span>
-            <span className="text-brand-blue font-medium">News</span>
-          </div>
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Events", href: "/events" }, { label: "News" }]} />
 
           {/* Back Button */}
           <Link href="/events" className="inline-flex items-center gap-2 text-brand-blue hover:text-brand-blue/80 mb-6">
