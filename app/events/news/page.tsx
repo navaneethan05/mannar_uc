@@ -1,11 +1,18 @@
+"use client"
+
+import { useMemo, useState } from "react"
 import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { ArrowLeft, Calendar, User, Clock } from "lucide-react"
+import { ArrowLeft, Calendar, User, Clock, Filter } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 import Link from "next/link"
 import Image from "next/image"
 
 export default function NewsPage() {
+  const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly">("all")
+  const [visible, setVisible] = useState(6)
+
   const newsArticles = [
     {
       id: 1,
@@ -48,6 +55,20 @@ export default function NewsPage() {
     },
   ]
 
+  const filtered = useMemo(() => {
+    const now = new Date()
+    const limitDays = timeFilter === "weekly" ? 7 : timeFilter === "monthly" ? 30 : 0
+    return newsArticles.filter((a) => {
+      if (limitDays === 0) return true
+      const d = new Date(a.date)
+      const diffDays = Math.floor((now.getTime() - d.getTime()) / (1000 * 60 * 60 * 24))
+      return diffDays <= limitDays
+    })
+  }, [timeFilter, newsArticles])
+
+  const visibleItems = filtered.slice(0, visible)
+  const hasMore = visible < filtered.length
+
   return (
     <div className="min-h-screen bg-gray-50">
       <TopBar />
@@ -56,17 +77,7 @@ export default function NewsPage() {
       <main className="section-x py-8">
         <div className="container-x">
           {/* Breadcrumb */}
-          <div className="flex items-center gap-2 text-sm text-gray-600 mb-6">
-            <Link href="/" className="hover:text-brand-blue">
-              Home
-            </Link>
-            <span>/</span>
-            <Link href="/events" className="hover:text-brand-blue">
-              Events
-            </Link>
-            <span>/</span>
-            <span className="text-brand-blue font-medium">News</span>
-          </div>
+          <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Events", href: "/events" }, { label: "News" }]} />
 
           {/* Back Button */}
           <Link href="/events" className="inline-flex items-center gap-2 text-brand-blue hover:text-brand-blue/80 mb-6">
@@ -82,19 +93,48 @@ export default function NewsPage() {
             </p>
           </div>
 
+          {/* Filter */}
+          <div className="card-x flex items-center justify-between mb-8">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Filter className="w-4 h-4" /> Filter by time
+            </div>
+            <div className="flex gap-2">
+              {[
+                { key: "all", label: "All" },
+                { key: "weekly", label: "Weekly" },
+                { key: "monthly", label: "Monthly" },
+              ].map((t) => (
+                <button
+                  key={t.key}
+                  onClick={() => {
+                    setTimeFilter(t.key as any)
+                    setVisible(6)
+                  }}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    timeFilter === (t.key as any)
+                      ? "bg-brand-blue text-white"
+                      : "bg-white text-gray-700 hover:bg-blue-50 border border-gray-200"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           {/* News Grid */}
           <div className="grid gap-8">
-            {newsArticles.map((article) => (
+            {visibleItems.map((article) => (
               <article key={article.id} className="card-x overflow-hidden">
                 <div className="md:flex gap-6">
                   <div className="md:w-1/3">
-                    <div className="aspect-video bg-gray-200 rounded-xl overflow-hidden">
+                  <div className="aspect-video bg-gray-200 rounded-xl overflow-hidden group">
                       <Image
                         src={`/abstract-geometric-shapes.png?height=200&width=300&query=${encodeURIComponent(article.image.replace("/", ""))}`}
                         alt={article.title}
                         width={300}
                         height={200}
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     </div>
                   </div>
@@ -133,7 +173,13 @@ export default function NewsPage() {
 
           {/* Load More */}
           <div className="text-center mt-12">
-            <button className="btn-primary">Load More Articles</button>
+            {hasMore ? (
+              <button onClick={() => setVisible((v) => v + 6)} className="btn-primary">
+                Load More Articles
+              </button>
+            ) : (
+              <div className="text-gray-500">No more articles</div>
+            )}
           </div>
         </div>
       </main>

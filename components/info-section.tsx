@@ -7,26 +7,26 @@ export function InfoSection() {
       title: "Garbage Collection",
       description:
         "Schedule pickup, report missed collections, and learn about waste management programs in your area.",
-      link: "#garbage-collection",
+      link: "/info/garbage-collection",
     },
     {
       icon: FileText,
-      title: "Certificates",
+      title: "Certificates & Permits",
       description:
         "Apply for birth certificates, marriage certificates, and other official municipal documents online.",
-      link: "#certificates",
+      link: "/info/certificates",
     },
     {
       icon: Bell,
       title: "Public Notices",
       description: "Stay informed with the latest municipal announcements, policy changes, and community updates.",
-      link: "#notices",
+      link: "/info/public-notices",
     },
     {
       icon: Globe,
       title: "E-Services",
       description: "Access digital services including online payments, permit applications, and service requests.",
-      link: "#e-services",
+      link: "/info/e-services",
     },
   ]
 

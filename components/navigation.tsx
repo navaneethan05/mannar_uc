@@ -1,18 +1,40 @@
 "use client"
 
 import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import { Menu, X, ChevronDown } from "lucide-react"
 import Image from "next/image"
 
 export function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
 
-  const menuItems = [
+  const go = (href: string) => {
+    try {
+      setOpenDropdown(null)
+      if (typeof window !== "undefined") {
+        window.location.assign(href)
+      }
+    } catch (_) {}
+  }
+
+  const baseItems = [
     { name: "Home", href: "/" },
     { name: "Chairman", href: "/chairman" },
-    { name: "Events", href: "/events" },
-    { name: "Info", href: "/info" },
-    { name: "Contact Us", href: "/contact" },
+  ]
+
+  const eventsDropdown = [
+    { name: "Gallery", href: "/events/gallery" },
+    { name: "News", href: "/events/news" },
+    { name: "Announcements", href: "/events/announcements" },
+    { name: "Notices", href: "/events/notices" },
+  ]
+
+  const infoDropdown = [
+    { name: "Services", href: "/info" },
+    { name: "Tourism", href: "/info/tourism" },
+    { name: "Certificates & Permits", href: "/info/certificates" },
+    { name: "Public Notices", href: "/info/public-notices" },
+    { name: "e-Services", href: "/info/e-services" },
   ]
 
   return (
@@ -36,8 +58,8 @@ export function Navigation() {
         </div>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-6">
-          {menuItems.map((item) => (
+        <div className="hidden md:flex items-center gap-6 relative">
+          {baseItems.map((item) => (
             <a
               key={item.name}
               href={item.href}
@@ -46,6 +68,78 @@ export function Navigation() {
               {item.name}
             </a>
           ))}
+
+          {/* Events & Updates dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setOpenDropdown("events")}
+          >
+            <button
+              className="inline-flex items-center gap-1 text-primary font-medium hover:underline underline-offset-4"
+              aria-haspopup="menu"
+              aria-expanded={openDropdown === "events"}
+              onClick={() => setOpenDropdown(openDropdown === "events" ? null : "events")}
+            >
+              Events & Updates
+              <ChevronDown className="w-4 h-4" />
+            </button>
+            {openDropdown === "events" && (
+              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-48 py-2 z-50" role="menu" aria-label="Events & Updates">
+                {eventsDropdown.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    role="menuitem"
+                    className="block px-4 py-2 text-primary hover:bg-gray-50"
+                    onMouseDown={(e) => {
+                      e.preventDefault()
+                      go(item.href)
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Information dropdown */}
+          <div
+            className="relative"
+            onMouseEnter={() => setOpenDropdown("info")}
+          >
+            <button
+              className="inline-flex items-center gap-1 text-primary font-medium hover:underline underline-offset-4"
+              aria-haspopup="menu"
+              aria-expanded={openDropdown === "info"}
+              onClick={() => setOpenDropdown(openDropdown === "info" ? null : "info")}
+            >
+              Information
+              <ChevronDown className="w-4 h-4" />
+            </button>
+            {openDropdown === "info" && (
+              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-64 py-2 z-50" role="menu" aria-label="Information">
+                {infoDropdown.map((item) => (
+                  <a
+                    key={item.name}
+                    href={item.href}
+                    role="menuitem"
+                    className="block px-4 py-2 text-primary hover:bg-gray-50"
+                    onMouseDown={(e) => {
+                      e.preventDefault()
+                      go(item.href)
+                    }}
+                  >
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <a href="/contact" className="text-primary font-medium hover:underline underline-offset-4 transition-all">
+            Contact Us
+          </a>
         </div>
 
         {/* Mobile Menu Button */}
@@ -62,16 +156,48 @@ export function Navigation() {
       {isMenuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200">
           <div className="container-x py-4 space-y-3">
-            {menuItems.map((item) => (
+            {baseItems.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                className="block text-primary font-medium py-2 hover:underline underline-offset-4"
+                className="block text-primary font-medium py-2"
                 onClick={() => setIsMenuOpen(false)}
               >
                 {item.name}
               </a>
             ))}
+
+            <details className="group">
+              <summary className="flex justify-between items-center py-2 cursor-pointer text-primary font-medium">
+                Events & Updates
+                <span className="group-open:rotate-180 transition-transform">▾</span>
+              </summary>
+              <div className="pl-4 pb-2 space-y-2">
+                {eventsDropdown.map((item) => (
+                  <a key={item.name} href={item.href} className="block py-1" onClick={() => setIsMenuOpen(false)}>
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            </details>
+
+            <details className="group">
+              <summary className="flex justify-between items-center py-2 cursor-pointer text-primary font-medium">
+                Information
+                <span className="group-open:rotate-180 transition-transform">▾</span>
+              </summary>
+              <div className="pl-4 pb-2 space-y-2">
+                {infoDropdown.map((item) => (
+                  <a key={item.name} href={item.href} className="block py-1" onClick={() => setIsMenuOpen(false)}>
+                    {item.name}
+                  </a>
+                ))}
+              </div>
+            </details>
+
+            <a href="/contact" className="block text-primary font-medium py-2" onClick={() => setIsMenuOpen(false)}>
+              Contact Us
+            </a>
           </div>
         </div>
       )}
