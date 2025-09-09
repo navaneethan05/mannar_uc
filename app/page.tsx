@@ -2,7 +2,6 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
 import { VisionMissionSection } from "@/components/vision-mission-section"
-import { GoalsSection } from "@/components/goals-section"
 import { ChairmanSection } from "@/components/chairman-section"
 import { EventsSection } from "@/components/events-section"
 import { InfoSection } from "@/components/info-section"
@@ -17,7 +16,6 @@ export default function HomePage() {
       <main>
         <HeroSection />
         <VisionMissionSection />
-        <GoalsSection />
         <ChairmanSection />
         <EventsSection />
         <InfoSection />
