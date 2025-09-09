@@ -1,10 +1,16 @@
+"use client"
+
+import { useMemo, useState } from "react"
 import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { ArrowLeft, Calendar, Download, AlertCircle, FileText, Clock } from "lucide-react"
+import { ArrowLeft, Calendar, Download, AlertCircle, FileText, Clock, Filter } from "lucide-react"
 import Link from "next/link"
 
 export default function NoticesPage() {
+  const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly">("all")
+  const [visible, setVisible] = useState(6)
+
   const notices = [
     {
       id: 1,
@@ -94,6 +100,21 @@ export default function NoticesPage() {
     }
   }
 
+  const filtered = useMemo(() => {
+    const now = new Date()
+    const limitDays = timeFilter === "weekly" ? 7 : timeFilter === "monthly" ? 30 : 0
+    return notices.filter((n) => {
+      const base = n.deadline || n.date
+      if (!base) return true
+      if (limitDays === 0) return true
+      const diffDays = Math.floor((now.getTime() - new Date(base).getTime()) / (1000 * 60 * 60 * 24))
+      return diffDays <= limitDays
+    })
+  }, [timeFilter, notices])
+
+  const visibleItems = filtered.slice(0, visible)
+  const hasMore = visible < filtered.length
+
   return (
     <div className="min-h-screen bg-gray-50">
       <TopBar />
@@ -130,25 +151,37 @@ export default function NoticesPage() {
           </div>
 
           {/* Filter Tabs */}
-          <div className="flex flex-wrap gap-2 mb-8">
-            <button className="px-4 py-2 bg-brand-blue text-white rounded-full text-sm font-medium">All Notices</button>
-            <button className="px-4 py-2 bg-white text-gray-600 rounded-full text-sm font-medium hover:bg-gray-50">
-              Tenders
-            </button>
-            <button className="px-4 py-2 bg-white text-gray-600 rounded-full text-sm font-medium hover:bg-gray-50">
-              Tax Notices
-            </button>
-            <button className="px-4 py-2 bg-white text-gray-600 rounded-full text-sm font-medium hover:bg-gray-50">
-              Meeting Minutes
-            </button>
-            <button className="px-4 py-2 bg-white text-gray-600 rounded-full text-sm font-medium hover:bg-gray-50">
-              Environmental
-            </button>
+          <div className="card-x flex items-center justify-between mb-8">
+            <div className="flex items-center gap-2 text-sm text-gray-600">
+              <Filter className="w-4 h-4" /> Filter by time
+            </div>
+            <div className="flex gap-2">
+              {[
+                { key: "all", label: "All" },
+                { key: "weekly", label: "Weekly" },
+                { key: "monthly", label: "Monthly" },
+              ].map((t) => (
+                <button
+                  key={t.key}
+                  onClick={() => {
+                    setTimeFilter(t.key as any)
+                    setVisible(6)
+                  }}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                    timeFilter === (t.key as any)
+                      ? "bg-brand-blue text-white"
+                      : "bg-white text-gray-700 hover:bg-blue-50 border border-gray-200"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           {/* Notices List */}
           <div className="space-y-6">
-            {notices.map((notice) => (
+            {visibleItems.map((notice) => (
               <div key={notice.id} className="card-x">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
@@ -211,7 +244,13 @@ export default function NoticesPage() {
 
           {/* Load More */}
           <div className="text-center mt-12">
-            <button className="btn-primary">Load More Notices</button>
+            {hasMore ? (
+              <button onClick={() => setVisible((v) => v + 6)} className="btn-primary">
+                Load More Notices
+              </button>
+            ) : (
+              <div className="text-gray-500">No more notices</div>
+            )}
           </div>
         </div>
       </main>
