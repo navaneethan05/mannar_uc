@@ -64,7 +64,6 @@ export function Navigation() {
           <div
             className="relative"
             onMouseEnter={() => setOpenDropdown("events")}
-            onMouseLeave={() => setOpenDropdown(null)}
           >
             <button
               className="inline-flex items-center gap-1 text-primary font-medium hover:underline underline-offset-4"
@@ -76,7 +75,7 @@ export function Navigation() {
               <ChevronDown className="w-4 h-4" />
             </button>
             {openDropdown === "events" && (
-              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-48 py-2 z-50">
+              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-48 py-2 z-50" role="menu" aria-label="Events & Updates">
                 {eventsDropdown.map((item) => (
                   <a
                     key={item.name}
@@ -95,7 +94,6 @@ export function Navigation() {
           <div
             className="relative"
             onMouseEnter={() => setOpenDropdown("info")}
-            onMouseLeave={() => setOpenDropdown(null)}
           >
             <button
               className="inline-flex items-center gap-1 text-primary font-medium hover:underline underline-offset-4"
@@ -107,7 +105,7 @@ export function Navigation() {
               <ChevronDown className="w-4 h-4" />
             </button>
             {openDropdown === "info" && (
-              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-64 py-2 z-50">
+              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-64 py-2 z-50" role="menu" aria-label="Information">
                 {infoDropdown.map((item) => (
                   <a
                     key={item.name}
