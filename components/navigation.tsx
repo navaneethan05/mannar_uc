@@ -66,17 +66,23 @@ export function Navigation() {
             onMouseEnter={() => setOpenDropdown("events")}
             onMouseLeave={() => setOpenDropdown(null)}
           >
-            <button className="inline-flex items-center gap-1 text-primary font-medium hover:underline underline-offset-4">
+            <button
+              className="inline-flex items-center gap-1 text-primary font-medium hover:underline underline-offset-4"
+              aria-haspopup="menu"
+              aria-expanded={openDropdown === "events"}
+              onClick={() => setOpenDropdown(openDropdown === "events" ? null : "events")}
+            >
               Events & Updates
               <ChevronDown className="w-4 h-4" />
             </button>
             {openDropdown === "events" && (
-              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-48 py-2">
+              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-48 py-2 z-50">
                 {eventsDropdown.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
                     className="block px-4 py-2 text-primary hover:bg-gray-50"
+                    onClick={() => setOpenDropdown(null)}
                   >
                     {item.name}
                   </a>
@@ -91,17 +97,23 @@ export function Navigation() {
             onMouseEnter={() => setOpenDropdown("info")}
             onMouseLeave={() => setOpenDropdown(null)}
           >
-            <button className="inline-flex items-center gap-1 text-primary font-medium hover:underline underline-offset-4">
+            <button
+              className="inline-flex items-center gap-1 text-primary font-medium hover:underline underline-offset-4"
+              aria-haspopup="menu"
+              aria-expanded={openDropdown === "info"}
+              onClick={() => setOpenDropdown(openDropdown === "info" ? null : "info")}
+            >
               Information
               <ChevronDown className="w-4 h-4" />
             </button>
             {openDropdown === "info" && (
-              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-64 py-2">
+              <div className="absolute left-0 mt-2 bg-white shadow-lg rounded-xl border border-gray-200 w-64 py-2 z-50">
                 {infoDropdown.map((item) => (
                   <a
                     key={item.name}
                     href={item.href}
                     className="block px-4 py-2 text-primary hover:bg-gray-50"
+                    onClick={() => setOpenDropdown(null)}
                   >
                     {item.name}
                   </a>
@@ -127,7 +139,7 @@ export function Navigation() {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white border-top border-gray-200">
+        <div className="md:hidden bg-white border-t border-gray-200">
           <div className="container-x py-4 space-y-3">
             {baseItems.map((item) => (
               <a
