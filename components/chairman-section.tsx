@@ -39,9 +39,9 @@ export function ChairmanSection() {
               </p>
             </div>
 
-            <button className="inline-flex items-center px-5 py-2.5 rounded-full border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
+            <a href="/chairman" className="inline-flex items-center px-5 py-2.5 rounded-full border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
               Read Full Message
-            </button>
+            </a>
           </div>
         </div>
       </div>
