@@ -22,7 +22,8 @@ export default function HomePage() {
         <EventsSection />
         <InfoSection />
         <ContactSection />
-        <GalleryCtaSection />
+        <HomeGallerySection />
+        <TourismMediaSection />
       </main>
       <Footer />
     </div>
