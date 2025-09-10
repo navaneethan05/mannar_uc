@@ -18,14 +18,14 @@ export function VisionMissionSection() {
 
         {/* Vision */}
         <div className="max-w-3xl mx-auto mb-10">
-          <h3 className="text-2xl font-bold mb-2">Vision</h3>
-          <p className="text-blue-100 text-lg leading-relaxed">“An independent, sovereign and prosperous Mannar.”</p>
+          <h3 className="text-2xl font-bold mb-2 anim-fade-up">Vision</h3>
+          <p className="text-blue-100 text-lg leading-relaxed anim-fade-up-delay">“An independent, sovereign and prosperous Mannar.”</p>
         </div>
 
         {/* Mission */}
         <div className="max-w-3xl mx-auto">
-          <h3 className="text-2xl font-bold mb-2">Mission</h3>
-          <p className="text-blue-100 text-lg leading-relaxed">
+          <h3 className="text-2xl font-bold mb-2 anim-fade-up">Mission</h3>
+          <p className="text-blue-100 text-lg leading-relaxed anim-fade-up-delay-2">
             “To provide the leadership for an excellent municipal mechanism with good governance and effective
             coordination between agencies to improve residents’ quality of life.”
           </p>
