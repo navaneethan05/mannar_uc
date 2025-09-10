@@ -9,7 +9,6 @@ export function ContactSection() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    subject: "",
     message: "",
   })
 
@@ -54,34 +53,27 @@ export function ContactSection() {
   return (
     <section id="contact" className="section-x">
       <div className="container-x">
-        <h2 className="title-x text-center mb-10">Contact Us</h2>
+        <h2 className="title-x text-center mb-8">Contact Us</h2>
 
         <div className="grid md:grid-cols-2 gap-10 items-start">
-          {/* Left - Contact Form */}
-          <div className="card-x">
-            <h3 className="text-2xl font-semibold text-primary mb-6">Send us a Message</h3>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Left - Form Card */}
+          <div className="bg-white rounded-2xl shadow-lg p-6">
+            <h3 className="text-xl font-bold text-primary mb-4">Have Something Useful For Us?</h3>
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name
-                </label>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="John Smith"
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-primary focus:ring focus:ring-primary/20 outline-none transition-colors"
+                  placeholder="Jhon Smith"
+                  className="w-full bg-transparent px-2 pb-2 border-b border-gray-300 focus:border-primary outline-none"
                   required
+                  aria-label="Your Name"
                 />
               </div>
-
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address
-                </label>
                 <input
                   type="email"
                   id="email"
@@ -89,95 +81,68 @@ export function ContactSection() {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="email@gmail.com"
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-primary focus:ring focus:ring-primary/20 outline-none transition-colors"
+                  className="w-full bg-transparent px-2 pb-2 border-b border-gray-300 focus:border-primary outline-none"
                   required
+                  aria-label="Your Email"
                 />
               </div>
-
               <div>
-                <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
-                  Subject
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleInputChange}
-                  placeholder="How can we help you?"
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:border-primary focus:ring focus:ring-primary/20 outline-none transition-colors"
-                  required
-                />
-              </div>
-
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                  Message
-                </label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  placeholder="Type your message…"
-                  rows={5}
-                  className="w-full min-h-[140px] rounded-xl border border-gray-300 px-4 py-3 focus:border-primary focus:ring focus:ring-primary/20 outline-none transition-colors resize-vertical"
+                  placeholder="Your Message"
+                  rows={6}
+                  className="w-full bg-transparent px-2 pb-2 border-b border-gray-300 focus:border-primary outline-none resize-y"
                   required
+                  aria-label="Your Message"
                 />
               </div>
-
-              <button
-                type="submit"
-                className="w-full md:w-auto px-6 py-3 rounded-full bg-primary text-primary-foreground hover:opacity-90 transition-opacity font-medium"
-              >
-                Send Message
+              <button type="submit" className="w-full px-6 py-3 rounded-lg bg-[#001f4d] text-white font-semibold">
+                Send message
               </button>
             </form>
           </div>
 
-          {/* Right - Contact Details */}
+          {/* Right - Illustration and quick info */}
           <div className="space-y-6">
-            <div className="card-x">
-              <h3 className="text-xl font-semibold text-primary mb-4">Get in Touch</h3>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                  <div>
-                    <p className="font-medium text-gray-900">Municipal Council Office</p>
-                    <p className="text-gray-700">123 Main Street, City Center</p>
-                    <p className="text-gray-700">Colombo 00100, Sri Lanka</p>
-                  </div>
-                </div>
-
+            <div className="bg-white rounded-2xl shadow-lg p-6">
+              <div className="w-full aspect-video flex items-center justify-center">
+                <svg viewBox="0 0 300 200" className="w-full h-full">
+                  <rect x="0" y="0" width="300" height="200" rx="16" fill="#F3F4F6" />
+                  <path d="M90 150 L110 120 L120 120 L140 90 L150 95 L130 125 L140 125 L120 150 Z" fill="#9CA3AF" />
+                  <rect x="160" y="60" width="100" height="60" fill="#FFB703" stroke="#FFFFFF" strokeWidth="6" />
+                  <rect x="160" y="60" width="24" height="60" fill="#2A9D8F" />
+                  <rect x="184" y="60" width="76" height="60" fill="#7F1D1D" />
+                  <circle cx="222" cy="90" r="10" fill="#FFB703" />
+                  <line x1="160" y1="60" x2="160" y2="130" stroke="#111827" strokeWidth="6" />
+                </svg>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-4 mt-4">
                 <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-primary flex-shrink-0" />
+                  <Phone className="w-5 h-5 text-primary" />
                   <div>
-                    <p className="font-medium text-gray-900">Phone</p>
-                    <p className="text-gray-700">+94 11 234 5678</p>
+                    <p className="font-medium text-gray-900">+94 11 234 5678</p>
+                    <p className="text-gray-600 text-sm">Mon–Fri, 8:00–16:30</p>
                   </div>
                 </div>
-
                 <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-primary flex-shrink-0" />
+                  <Mail className="w-5 h-5 text-primary" />
                   <div>
-                    <p className="font-medium text-gray-900">Email</p>
-                    <p className="text-gray-700">info@municipal.gov.lk</p>
+                    <p className="font-medium text-gray-900">info@municipal.gov.lk</p>
+                    <p className="text-gray-600 text-sm">We reply within 1–2 days</p>
                   </div>
                 </div>
-
-                <div className="flex items-start gap-3">
-                  <Clock className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                <div className="flex items-start gap-3 sm:col-span-2">
+                  <MapPin className="w-5 h-5 text-primary mt-0.5" />
                   <div>
-                    <p className="font-medium text-gray-900">Office Hours</p>
-                    <p className="text-gray-700">Monday - Friday: 8:00 AM - 4:30 PM</p>
-                    <p className="text-gray-700">Saturday: 8:00 AM - 12:00 PM</p>
-                    <p className="text-gray-700">Sunday: Closed</p>
+                    <p className="font-medium text-gray-900">123 Main Street, City Center, Colombo 00100</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Map */}
             <div className="rounded-xl overflow-hidden aspect-video bg-gray-200">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467128!2d79.8612!3d6.9271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTUnMzcuNiJOIDc5wrA1MSc0MC4zIkU!5e0!3m2!1sen!2slk!4v1234567890"
