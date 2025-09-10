@@ -21,6 +21,7 @@ export default function HomePage() {
         <EventsSection />
         <InfoSection />
         <ContactSection />
+        <GalleryCtaSection />
       </main>
       <Footer />
     </div>
