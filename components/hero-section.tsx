@@ -17,6 +17,14 @@ export function HeroSection() {
 
   const [active, setActive] = useState(0)
 
+  // Autoplay every 5s, loop
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActive((i) => (i + 1) % slides.length)
+    }, 5000)
+    return () => clearInterval(id)
+  }, [slides.length])
+
   return (
     <section id="home" className="relative">
       {/* Background Carousel */}
