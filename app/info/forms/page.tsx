@@ -2,6 +2,7 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Download, FileText } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function FormsPage() {
   const forms = [
@@ -16,6 +17,7 @@ export default function FormsPage() {
       <TopBar />
       <Navigation />
       <main>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Information", href: "/info" }, { label: "Forms" }]} />
         <section className="section-x bg-gradient-to-br from-teal-600 to-teal-800">
           <div className="container-x text-center">
             <FileText className="w-16 h-16 text-white mx-auto mb-4" />
