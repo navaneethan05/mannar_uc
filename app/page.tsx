@@ -6,7 +6,8 @@ import { ChairmanSection } from "@/components/chairman-section"
 import { EventsSection } from "@/components/events-section"
 import { InfoSection } from "@/components/info-section"
 import { ContactSection } from "@/components/contact-section"
-import { GalleryCtaSection } from "@/components/gallery-cta-section"
+import { HomeGallerySection } from "@/components/home-gallery-section"
+import { TourismMediaSection } from "@/components/tourism-media-section"
 import { Footer } from "@/components/footer"
 
 export default function HomePage() {
