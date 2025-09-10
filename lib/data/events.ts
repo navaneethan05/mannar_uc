@@ -28,7 +28,7 @@ export const events: EventItem[] = [
     date: "March 20, 2024",
     time: "7:00 PM",
     location: "Council Chambers",
-    image: "/public-meeting-council-chambers.jpg",
+    image: "/historic-fort-mannar-sri-lanka-colonial-architectu.jpg",
     description:
       "Annual budget presentation and public consultation session. Your input matters for our community's future.",
   },
@@ -39,7 +39,7 @@ export const events: EventItem[] = [
     date: "March 25, 2024",
     time: "2:00 PM",
     location: "Community Center",
-    image: "/youth-workshop-community-center.jpg",
+    image: "/baobab-trees-mannar-sri-lanka-ancient-african-tree.jpg",
     description: "Skills development and career guidance workshop for young residents aged 16-25.",
   },
   {
@@ -49,7 +49,7 @@ export const events: EventItem[] = [
     date: "March 30, 2024",
     time: "10:00 AM",
     location: "Municipal Hall",
-    image: "/health-fair-senior-citizens.jpg",
+    image: "/mannar-lighthouse-sri-lanka-historic-maritime-land.jpg",
     description:
       "Free health screenings, wellness consultations, and health education for our senior community members.",
   },
