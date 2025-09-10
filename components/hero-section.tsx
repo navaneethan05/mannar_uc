@@ -10,7 +10,7 @@ type Slide =
 
 export function HeroSection() {
   const slides: Slide[] = [
-    { type: "video", src: "/hero.mp4", poster: "/modern-municipal-building-government-office.jpg" },
+    { type: "video", src: "https://samplelib.com/lib/preview/mp4/sample-10s.mp4", poster: "/modern-municipal-building-government-office.jpg" },
     { type: "image", src: "/mannar-island-beaches-sri-lanka-pristine-coastline.jpg", alt: "Mannar island beaches" },
     { type: "image", src: "/mannar-lighthouse-sri-lanka-historic-maritime-land.jpg", alt: "Mannar lighthouse" },
   ]
