@@ -5,7 +5,7 @@ import { Users, Award, Target, Heart } from "lucide-react"
 
 export default function AboutPage() {
   const milestones = [
-    { year: "1987", event: "Establishment of Mannar Urban Council" },
+    { year: "1989", event: "Establishment of Mannar Urban Council" },
     { year: "2010", event: "Digital transformation initiative launched" },
     { year: "2018", event: "Waste management modernization program" },
     { year: "2021", event: "Community engagement platform introduced" },
