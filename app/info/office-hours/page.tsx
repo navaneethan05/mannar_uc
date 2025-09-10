@@ -2,6 +2,7 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Clock } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function OfficeHoursPage() {
   const hours = [
@@ -15,6 +16,7 @@ export default function OfficeHoursPage() {
       <TopBar />
       <Navigation />
       <main>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Information", href: "/info" }, { label: "Office Hours" }]} />
         <section className="section-x bg-gradient-to-br from-brand-blue to-blue-800">
           <div className="container-x text-center">
             <Clock className="w-16 h-16 text-white mx-auto mb-4" />

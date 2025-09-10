@@ -35,6 +35,7 @@ export function Navigation() {
     { name: "Certificates & Permits", href: "/info/certificates" },
     { name: "Public Notices", href: "/info/public-notices" },
     { name: "e-Services", href: "/info/e-services" },
+    { name: "Community Services", href: "/info/community-services" },
   ]
 
   return (

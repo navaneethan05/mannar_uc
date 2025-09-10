@@ -1,76 +1,35 @@
 import Image from "next/image"
 import { Calendar, Clock, MapPin, ArrowRight } from "lucide-react"
+import { events } from "@/lib/data/events"
 
 export function EventsSection() {
-  const events = [
-    {
-      id: 1,
-      title: "Community Clean-Up Drive",
-      date: "March 15, 2024",
-      time: "8:00 AM",
-      location: "Central Park",
-      image: "/community-cleanup-volunteers-park.jpg",
-      description:
-        "Join us for our monthly community clean-up initiative to keep our neighborhoods beautiful and sustainable.",
-    },
-    {
-      id: 2,
-      title: "Public Budget Meeting",
-      date: "March 20, 2024",
-      time: "7:00 PM",
-      location: "Council Chambers",
-      image: "/public-meeting-council-chambers.jpg",
-      description:
-        "Annual budget presentation and public consultation session. Your input matters for our community's future.",
-    },
-    {
-      id: 3,
-      title: "Youth Development Workshop",
-      date: "March 25, 2024",
-      time: "2:00 PM",
-      location: "Community Center",
-      image: "/youth-workshop-community-center.jpg",
-      description: "Skills development and career guidance workshop for young residents aged 16-25.",
-    },
-    {
-      id: 4,
-      title: "Senior Citizens Health Fair",
-      date: "March 30, 2024",
-      time: "10:00 AM",
-      location: "Municipal Hall",
-      image: "/health-fair-senior-citizens.jpg",
-      description:
-        "Free health screenings, wellness consultations, and health education for our senior community members.",
-    },
-  ]
-
   const notices = [
     {
       id: 1,
       title: "Water Supply Maintenance",
       date: "March 12, 2024",
-      image: "/water-maintenance-notice.jpg",
+      image: "/mannar-lighthouse-sri-lanka-historic-maritime-land.jpg",
       description: "Scheduled maintenance will affect water supply in Zone A from 9 AM to 3 PM.",
     },
     {
       id: 2,
       title: "Road Construction Update",
       date: "March 10, 2024",
-      image: "/road-construction-update.jpg",
+      image: "/historic-fort-mannar-sri-lanka-colonial-architectu.jpg",
       description: "Main Street construction project is 60% complete. Expected completion by April 15.",
     },
     {
       id: 3,
       title: "New Recycling Program",
       date: "March 8, 2024",
-      image: "/recycling-program-launch.jpg",
+      image: "/baobab-trees-mannar-sri-lanka-ancient-african-tree.jpg",
       description: "Enhanced recycling collection starts March 15. New bins will be distributed this week.",
     },
     {
       id: 4,
       title: "Property Tax Deadline",
       date: "March 5, 2024",
-      image: "/property-tax-reminder.jpg",
+      image: "/mannar-island-beaches-sri-lanka-pristine-coastline.jpg",
       description: "Reminder: Property tax payments are due by March 31. Online payment options available.",
     },
   ]
@@ -82,7 +41,7 @@ export function EventsSection() {
         <div className="flex items-center justify-between mb-8">
           <h2 className="title-x">Events & Updates</h2>
           <a
-            href="#events"
+            href="/events"
             className="hidden md:inline-flex items-center px-4 py-2 rounded-full bg-primary text-primary-foreground hover:opacity-90 transition-opacity gap-2"
           >
             View All Events
@@ -123,9 +82,9 @@ export function EventsSection() {
                       <span>{event.location}</span>
                     </div>
                     <p className="text-gray-600 text-sm leading-5 mb-4">{event.description}</p>
-                    <button className="text-primary underline underline-offset-4 text-sm font-medium hover:no-underline transition-all">
+                    <a href={`/events/${(event as any).slug || ""}`} className="text-primary underline underline-offset-4 text-sm font-medium hover:no-underline transition-all">
                       Learn More
-                    </button>
+                    </a>
                   </div>
                 </div>
               ))}
@@ -159,7 +118,7 @@ export function EventsSection() {
             </div>
             <div className="mt-4 pt-4 border-t border-gray-100">
               <a
-                href="#notices"
+                href="/events/notices"
                 className="text-primary text-sm font-medium underline underline-offset-4 hover:no-underline transition-all"
               >
                 View All Notices

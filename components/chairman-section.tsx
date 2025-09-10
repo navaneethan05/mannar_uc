@@ -8,7 +8,7 @@ export function ChairmanSection() {
           {/* Left - Chairman Photo */}
           <div className="rounded-2xl shadow-lg overflow-hidden aspect-[4/3]">
             <Image
-              src="/chairman-portrait-professional-municipal-leader.jpg"
+              src="/placeholder-user.jpg"
               alt="Chairman of Municipal Council"
               width={500}
               height={375}
@@ -39,9 +39,9 @@ export function ChairmanSection() {
               </p>
             </div>
 
-            <button className="inline-flex items-center px-5 py-2.5 rounded-full border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
+            <a href="/chairman" className="inline-flex items-center px-5 py-2.5 rounded-full border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
               Read Full Message
-            </button>
+            </a>
           </div>
         </div>
       </div>
