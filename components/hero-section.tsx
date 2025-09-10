@@ -59,13 +59,12 @@ export function HeroSection() {
         <div className="grid md:grid-cols-2 items-center gap-10 min-h-[520px] md:min-h-[600px]">
           {/* Left - Image container with padding and rounded corners */}
           <div className="rounded-2xl p-5 bg-white/90 backdrop-blur-sm shadow-lg">
-            <div className="rounded-xl overflow-hidden">
+            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
               <Image
                 src="/modern-municipal-building-government-office.jpg"
                 alt="Municipal Council Building"
-                width={800}
-                height={600}
-                className="w-full h-auto"
+                fill
+                className="object-cover"
                 priority
               />
             </div>
