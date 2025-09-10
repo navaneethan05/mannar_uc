@@ -17,7 +17,7 @@ export const events: EventItem[] = [
     date: "March 15, 2024",
     time: "8:00 AM",
     location: "Central Park",
-    image: "/community-cleanup-volunteers-park.jpg",
+    image: "/mannar-island-beaches-sri-lanka-pristine-coastline.jpg",
     description:
       "Join us for our monthly community clean-up initiative to keep our neighborhoods beautiful and sustainable.",
   },
