@@ -4,13 +4,24 @@ import { useMemo, useState } from "react"
 import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { ArrowLeft, Calendar, Download, AlertCircle, FileText, Clock, Filter } from "lucide-react"
+import {
+  ArrowLeft,
+  Calendar,
+  Download,
+  AlertCircle,
+  FileText,
+  Clock,
+  Filter,
+  Search,
+  Newspaper,
+} from "lucide-react"
 import Link from "next/link"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function NoticesPage() {
   const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly">("all")
   const [visible, setVisible] = useState(6)
+  const [search, setSearch] = useState("")
 
   const notices = [
     {
@@ -107,11 +118,14 @@ export default function NoticesPage() {
     return notices.filter((n) => {
       const base = n.deadline || n.date
       if (!base) return true
-      if (limitDays === 0) return true
-      const diffDays = Math.floor((now.getTime() - new Date(base).getTime()) / (1000 * 60 * 60 * 24))
-      return diffDays <= limitDays
+      if (limitDays !== 0) {
+        const diffDays = Math.floor((now.getTime() - new Date(base).getTime()) / (1000 * 60 * 60 * 24))
+        if (diffDays > limitDays) return false
+      }
+      if (search && !n.title.toLowerCase().includes(search.toLowerCase())) return false
+      return true
     })
-  }, [timeFilter, notices])
+  }, [timeFilter, notices, search])
 
   const visibleItems = filtered.slice(0, visible)
   const hasMore = visible < filtered.length
@@ -121,7 +135,58 @@ export default function NoticesPage() {
       <TopBar />
       <Navigation />
 
-      <main className="section-x py-8">
+      {/* HERO SECTION */}
+      <section className="bg-gradient-to-br from-purple-600 to-purple-800 relative">
+        <div className="container-x text-center py-20">
+          <Newspaper className="w-16 h-16 text-white mx-auto mb-4" />
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Official Notices</h1>
+          <p className="text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed">
+            Stay updated with tenders, policies, taxes, and important municipal communications.
+          </p>
+        </div>
+
+        {/* Search + Filter */}
+        <div className="absolute -bottom-10 left-0 right-0">
+          <div className="container-x">
+            <div className="bg-white rounded-xl shadow-lg p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="relative flex-1 w-full">
+                <Search className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Search notices..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"
+                />
+              </div>
+              <div className="flex gap-2">
+                {[
+                  { key: "all", label: "All" },
+                  { key: "weekly", label: "Weekly" },
+                  { key: "monthly", label: "Monthly" },
+                ].map((t) => (
+                  <button
+                    key={t.key}
+                    onClick={() => {
+                      setTimeFilter(t.key as any)
+                      setVisible(6)
+                    }}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      timeFilter === (t.key as any)
+                        ? "bg-purple-600 text-white"
+                        : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                    }`}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main className="section-x pt-20 pb-8">
         <div className="container-x">
           {/* Breadcrumb */}
           <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Events", href: "/events" }, { label: "Notices" }]} />
@@ -131,44 +196,6 @@ export default function NoticesPage() {
             <ArrowLeft className="w-4 h-4" />
             Back to Events
           </Link>
-
-          {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold text-brand-blue mb-4">Official Notices</h1>
-            <p className="text-lg text-gray-600 max-w-2xl">
-              Important legal and administrative documents, tender announcements, and official communications from the
-              Mannar Urban Council.
-            </p>
-          </div>
-
-          {/* Filter Tabs */}
-          <div className="card-x flex items-center justify-between mb-8">
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <Filter className="w-4 h-4" /> Filter by time
-            </div>
-            <div className="flex gap-2">
-              {[
-                { key: "all", label: "All" },
-                { key: "weekly", label: "Weekly" },
-                { key: "monthly", label: "Monthly" },
-              ].map((t) => (
-                <button
-                  key={t.key}
-                  onClick={() => {
-                    setTimeFilter(t.key as any)
-                    setVisible(6)
-                  }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    timeFilter === (t.key as any)
-                      ? "bg-brand-blue text-white"
-                      : "bg-white text-gray-700 hover:bg-blue-50 border border-gray-200"
-                  }`}
-                >
-                  {t.label}
-                </button>
-              ))}
-            </div>
-          </div>
 
           {/* Notices List */}
           <div className="space-y-6">
