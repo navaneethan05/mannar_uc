@@ -2,8 +2,20 @@
 
 import type React from "react"
 
-import { useState } from "react"
-import { MapPin, Phone, Mail, Clock, ChevronDown, ChevronUp } from "lucide-react"
+import { useState, useCallback, useRef } from "react"
+import { ChevronDown, ChevronUp, MapPin, Phone, Mail } from "lucide-react"
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"
+
+const containerStyle = {
+  width: '100%',
+  height: '100%'
+};
+
+// Extracted coordinates for Urban Council Mannar from the URL
+const defaultCenter = {
+  lat: 8.979872,
+  lng: 79.9099636
+};
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -49,6 +61,21 @@ export function ContactSection() {
         "You can report issues through this contact form, call our hotline, visit our office in person, or use our online complaint portal available 24/7.",
     },
   ]
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    // You need to get a valid Google Maps API Key and replace this placeholder.
+    // The map won't load correctly until a key is provided.
+    googleMapsApiKey: "YOUR_GOOGLE_MAPS_API_KEY"
+  })
+
+  const mapRef = useRef(undefined)
+  const onMapLoad = useCallback(function callback(map) {
+    mapRef.current = map
+  }, [])
+  const onMapUnmount = useCallback(function callback(map) {
+    mapRef.current = undefined
+  }, [])
 
   return (
     <section id="contact" className="section-x">
@@ -105,20 +132,9 @@ export function ContactSection() {
             </form>
           </div>
 
-          {/* Right - Illustration and quick info */}
+          {/* Right - Quick Info and Google Map */}
           <div className="space-y-6">
             <div className="bg-white rounded-2xl shadow-lg p-6">
-              <div className="w-full aspect-video flex items-center justify-center">
-                <svg viewBox="0 0 300 200" className="w-full h-full">
-                  <rect x="0" y="0" width="300" height="200" rx="16" fill="#F3F4F6" />
-                  <path d="M90 150 L110 120 L120 120 L140 90 L150 95 L130 125 L140 125 L120 150 Z" fill="#9CA3AF" />
-                  <rect x="160" y="60" width="100" height="60" fill="#FFB703" stroke="#FFFFFF" strokeWidth="6" />
-                  <rect x="160" y="60" width="24" height="60" fill="#2A9D8F" />
-                  <rect x="184" y="60" width="76" height="60" fill="#7F1D1D" />
-                  <circle cx="222" cy="90" r="10" fill="#FFB703" />
-                  <line x1="160" y1="60" x2="160" y2="130" stroke="#111827" strokeWidth="6" />
-                </svg>
-              </div>
               <div className="grid sm:grid-cols-2 gap-4 mt-4">
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-primary" />
@@ -142,18 +158,21 @@ export function ContactSection() {
                 </div>
               </div>
             </div>
-
+            
             <div className="rounded-xl overflow-hidden aspect-video bg-gray-200">
-              <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.798467128!2d79.8612!3d6.9271!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTUnMzcuNiJOIDc5wrA1MSc0MC4zIkU!5e0!3m2!1sen!2slk!4v1234567890"
-                width="100%"
-                height="100%"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                title="Municipal Council Location"
-              />
+              {isLoaded ? (
+                <GoogleMap
+                  mapContainerStyle={containerStyle}
+                  center={defaultCenter}
+                  zoom={15}
+                  onLoad={onMapLoad}
+                  onUnmount={onMapUnmount}
+                >
+                  <Marker position={defaultCenter} />
+                </GoogleMap>
+              ) : (
+                <div>Loading map...</div>
+              )}
             </div>
           </div>
         </div>
