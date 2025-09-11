@@ -25,13 +25,14 @@ export function VisionMissionSection() {
     <section
       className="relative section-x"
       style={{
-        backgroundImage: 'url(/modern-municipal-building-government-office.jpg)',
+        backgroundImage: 'url(/office.jpg)',
         backgroundSize: "cover",
         backgroundPosition: "center",
+        backgroundAttachment: "fixed", // Fix the background image
       }}
     >
       <div className="absolute inset-0 bg-black/40" />
-      <div ref={containerRef} className="relative container-x text-center text-white">
+      <div ref={containerRef} className="relative container-x text-center text-white py-16">
         <h2 className={`text-3xl md:text-4xl font-bold mb-4 ${inView ? "anim-fade-up" : "opacity-0 translate-y-4"}`}>Mannar Urban Council</h2>
         <p className={`max-w-4xl mx-auto text-blue-100 text-lg md:text-xl mb-12 ${inView ? "anim-fade-up-delay" : "opacity-0 translate-y-4"}`}>
           Providing leadership and coordination to achieve economic and social development goals with transparent

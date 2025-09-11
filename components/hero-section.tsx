@@ -11,8 +11,8 @@ type Slide =
 export function HeroSection() {
   const slides: Slide[] = [
     { type: "video", src: "https://samplelib.com/lib/preview/mp4/sample-10s.mp4", poster: "/modern-municipal-building-government-office.jpg" },
+    { type: "image", src: "/hero.png", alt: "Mannar island beaches" },
     { type: "image", src: "/mannar-island-beaches-sri-lanka-pristine-coastline.jpg", alt: "Mannar island beaches" },
-    { type: "image", src: "/mannar-lighthouse-sri-lanka-historic-maritime-land.jpg", alt: "Mannar lighthouse" },
   ]
 
   const [active, setActive] = useState(0)
@@ -58,8 +58,8 @@ export function HeroSection() {
         {/* Fixed height for hero while remaining responsive */}
         <div className="grid md:grid-cols-2 items-center gap-10 min-h-[520px] md:min-h-[600px]">
           {/* Left - Image container with padding and rounded corners */}
-          <div className="rounded-2xl p-5 bg-white/90 backdrop-blur-sm shadow-lg">
-            <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
+          <div className="rounded-2xl p-5 shadow-lg">
+            {/* <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
               <Image
                 src="/modern-municipal-building-government-office.jpg"
                 alt="Municipal Council Building"
@@ -67,7 +67,7 @@ export function HeroSection() {
                 className="object-cover"
                 priority
               />
-            </div>
+            </div> */}
           </div>
 
           {/* Right - Content */}
