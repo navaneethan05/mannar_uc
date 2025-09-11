@@ -8,7 +8,7 @@ export function ChairmanSection() {
           {/* Left - Chairman Photo */}
           <div className="rounded-2xl shadow-lg overflow-hidden aspect-[4/3]">
             <Image
-              src="/placeholder-user.jpg"
+              src="/placeholder-user.png"
               alt="Chairman of Municipal Council"
               width={500}
               height={375}

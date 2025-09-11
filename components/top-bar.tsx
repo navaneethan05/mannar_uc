@@ -29,7 +29,7 @@ export function TopBar() {
   const languages = ["English", "සිංහල", "தமிழ்"]
 
   return (
-    <div className="bg-primary text-primary-foreground">
+    <div style={{ backgroundColor: "#1C2B78" }} className="text-primary-foreground">
       <div className="container-x flex items-center justify-between py-2 text-xs md:text-sm">
         <div className="flex items-center">
           <span>{currentTime}</span>
