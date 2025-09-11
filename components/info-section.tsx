@@ -1,4 +1,4 @@
-import { Trash2, FileText, Bell, Globe, ArrowRight } from "lucide-react"
+import { Trash2, FileText, Bell, Globe, Users, ArrowRight } from "lucide-react"
 
 export function InfoSection() {
   const services = [
@@ -27,6 +27,12 @@ export function InfoSection() {
       title: "E-Services",
       description: "Access digital services including online payments, permit applications, and service requests.",
       link: "/info/e-services",
+    },
+    {
+      icon: Users,
+      title: "Community Services",
+      description: "Programs for youth, elders, health clinics, and public welfare initiatives.",
+      link: "/info/community-services",
     },
   ]
 
@@ -71,7 +77,7 @@ export function InfoSection() {
             Need help with something else? Our comprehensive service directory has you covered.
           </p>
           <a
-            href="#all-services"
+            href="/info"
             className="inline-flex items-center px-6 py-3 rounded-full bg-white text-primary font-medium hover:bg-white/90 transition-colors gap-2"
           >
             View All Services

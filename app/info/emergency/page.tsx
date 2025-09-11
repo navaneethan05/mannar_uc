@@ -2,6 +2,7 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Phone } from "lucide-react"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function EmergencyContactsPage() {
   const contacts = [
@@ -16,6 +17,7 @@ export default function EmergencyContactsPage() {
       <TopBar />
       <Navigation />
       <main>
+        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Information", href: "/info" }, { label: "Emergency Contacts" }]} />
         <section className="section-x bg-gradient-to-br from-red-600 to-red-800">
           <div className="container-x text-center">
             <Phone className="w-16 h-16 text-white mx-auto mb-4" />
