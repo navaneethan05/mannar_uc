@@ -4,11 +4,20 @@ import { useMemo, useState } from "react"
 import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
-import { Megaphone, AlertTriangle, Clock, MapPin, Calendar, Filter } from "lucide-react"
+import {
+  Megaphone,
+  AlertTriangle,
+  Clock,
+  MapPin,
+  Calendar,
+  Filter,
+  Search,
+} from "lucide-react"
 import { Breadcrumbs } from "@/components/breadcrumbs"
 
 export default function AnnouncementsPage() {
-  const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly">("all")
+  const [timeFilter, setTimeFilter] = useState<"all" | "weekly" | "monthly" | "yearly">("all")
+  const [searchTerm, setSearchTerm] = useState("")
   const [visible, setVisible] = useState(6)
 
   const announcements = [
@@ -48,30 +57,6 @@ export default function AnnouncementsPage() {
       affectedAreas: ["All Wards"],
       contactInfo: "Council Secretary: +94 23 223 5678",
     },
-    {
-      title: "Garbage Collection Schedule Change",
-      date: "2024-01-13",
-      time: "Posted at 8:00 AM",
-      category: "Waste Management",
-      priority: "normal",
-      validUntil: "2024-01-31",
-      description:
-        "Due to the Pongal holiday, garbage collection schedules will be adjusted for the week of January 15-19. Collection will be delayed by one day for all wards.",
-      affectedAreas: ["All Wards"],
-      contactInfo: "Waste Management: +94 23 223 5679",
-    },
-    {
-      title: "Job Vacancy - Municipal Engineer",
-      date: "2024-01-12",
-      time: "Posted at 10:00 AM",
-      category: "Employment",
-      priority: "normal",
-      validUntil: "2024-02-12",
-      description:
-        "Applications are invited for the position of Municipal Engineer. Qualified candidates with relevant experience in civil engineering and municipal projects are encouraged to apply.",
-      affectedAreas: ["Municipal Office"],
-      contactInfo: "HR Department: +94 23 223 5683",
-    },
   ]
 
   const getPriorityColor = (priority: string) => {
@@ -91,13 +76,31 @@ export default function AnnouncementsPage() {
 
   const filtered = useMemo(() => {
     const now = new Date()
-    const limitDays = timeFilter === "weekly" ? 7 : timeFilter === "monthly" ? 30 : 0
+    const limitDays =
+      timeFilter === "weekly" ? 7 : timeFilter === "monthly" ? 30 : timeFilter === "yearly" ? 365 : 0
+
     return announcements.filter((a) => {
-      if (limitDays === 0) return true
-      const diffDays = Math.floor((now.getTime() - new Date(a.date).getTime()) / (1000 * 60 * 60 * 24))
-      return diffDays <= limitDays
+      // time filter
+      if (limitDays !== 0) {
+        const diffDays = Math.floor(
+          (now.getTime() - new Date(a.date).getTime()) / (1000 * 60 * 60 * 24),
+        )
+        if (diffDays > limitDays) return false
+      }
+
+      // search filter
+      if (searchTerm.trim() !== "") {
+        const q = searchTerm.toLowerCase()
+        return (
+          a.title.toLowerCase().includes(q) ||
+          a.description.toLowerCase().includes(q) ||
+          a.category.toLowerCase().includes(q)
+        )
+      }
+
+      return true
     })
-  }, [timeFilter, announcements])
+  }, [timeFilter, searchTerm, announcements])
 
   const visibleItems = filtered.slice(0, visible)
   const hasMore = visible < filtered.length
@@ -108,72 +111,48 @@ export default function AnnouncementsPage() {
       <Navigation />
 
       <main>
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Events", href: "/events" }, { label: "Announcements" }]} />
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Events", href: "/events" },
+            { label: "Announcements" },
+          ]}
+        />
+
         {/* Hero Section */}
-        <section className="section-x bg-gradient-to-br from-red-600 to-red-800">
-          <div className="container-x text-center">
-            <Megaphone className="w-16 h-16 text-white mx-auto mb-4" />
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Public Announcements</h1>
-            <p className="text-xl text-red-100 max-w-3xl mx-auto leading-relaxed">
-              Important announcements and alerts from Mannar Urban Council for public attention. Stay informed about
-              urgent updates, service changes, and community notices.
+        <section className="bg-gradient-to-br from-red-600 to-red-800 text-center text-white relative">
+          <div className="container-x py-16">
+            <Megaphone className="w-16 h-16 mx-auto mb-4" />
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Public Announcements</h1>
+            <p className="text-xl max-w-3xl mx-auto leading-relaxed mb-8">
+              Stay informed about urgent updates, service changes, and community notices from
+              Mannar Urban Council.
             </p>
-          </div>
-        </section>
 
-        {/* Filter and Stats */}
-        <section className="section-x bg-gray-50">
-          <div className="container-x">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-              <div>
-                <h2 className="text-2xl font-bold text-brand-blue mb-2">Current Announcements</h2>
-                <p className="text-gray-600">Last updated: January 16, 2024 at 9:00 AM</p>
+            {/* Search & Filter Row */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 max-w-4xl mx-auto mt-8">
+              {/* Search */}
+              <div className="relative w-full md:w-1/2">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => {
+                    setSearchTerm(e.target.value)
+                    setVisible(6)
+                  }}
+                  placeholder="Search announcements..."
+                  className="w-full pl-10 pr-4 py-3 rounded-lg text-gray-900"
+                />
               </div>
-              <div className="flex gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-red-600">2</div>
-                  <div className="text-sm text-gray-600">Urgent</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-600">1</div>
-                  <div className="text-sm text-gray-600">High Priority</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">2</div>
-                  <div className="text-sm text-gray-600">Normal</div>
-                </div>
-              </div>
-            </div>
 
-            <div className="flex flex-wrap gap-3">
-              <button className="px-4 py-2 rounded-full bg-red-600 text-white text-sm font-medium">
-                All Announcements
-              </button>
-              <button className="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-red-100 border border-gray-200 text-sm font-medium">
-                Urgent Only
-              </button>
-              <button className="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-red-100 border border-gray-200 text-sm font-medium">
-                Utility Services
-              </button>
-              <button className="px-4 py-2 rounded-full bg-white text-gray-700 hover:bg-red-100 border border-gray-200 text-sm font-medium">
-                Traffic & Roads
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* Announcements List */}
-        <section className="section-x">
-          <div className="container-x">
-            <div className="card-x flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2 text-sm text-gray-600">
-                <Filter className="w-4 h-4" /> Filter by time
-              </div>
+              {/* Filter */}
               <div className="flex gap-2">
                 {[
                   { key: "all", label: "All" },
                   { key: "weekly", label: "Weekly" },
                   { key: "monthly", label: "Monthly" },
+                  { key: "yearly", label: "Yearly" },
                 ].map((t) => (
                   <button
                     key={t.key}
@@ -183,8 +162,8 @@ export default function AnnouncementsPage() {
                     }}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                       timeFilter === (t.key as any)
-                        ? "bg-red-600 text-white"
-                        : "bg-white text-gray-700 hover:bg-red-50 border border-gray-200"
+                        ? "bg-white text-red-600"
+                        : "bg-red-700 text-white hover:bg-red-600"
                     }`}
                   >
                     {t.label}
@@ -192,7 +171,12 @@ export default function AnnouncementsPage() {
                 ))}
               </div>
             </div>
+          </div>
+        </section>
 
+        {/* List Section */}
+        <section className="section-x">
+          <div className="container-x">
             <div className="space-y-6">
               {visibleItems.map((announcement, index) => {
                 const PriorityIcon = getPriorityIcon(announcement.priority)
@@ -203,8 +187,8 @@ export default function AnnouncementsPage() {
                       announcement.priority === "urgent"
                         ? "border-l-red-500"
                         : announcement.priority === "high"
-                          ? "border-l-orange-500"
-                          : "border-l-blue-500"
+                        ? "border-l-orange-500"
+                        : "border-l-blue-500"
                     }`}
                   >
                     <div className="flex items-start justify-between mb-4">
@@ -214,8 +198,8 @@ export default function AnnouncementsPage() {
                             announcement.priority === "urgent"
                               ? "bg-red-100"
                               : announcement.priority === "high"
-                                ? "bg-orange-100"
-                                : "bg-blue-100"
+                              ? "bg-orange-100"
+                              : "bg-blue-100"
                           }`}
                         >
                           <PriorityIcon
@@ -223,13 +207,15 @@ export default function AnnouncementsPage() {
                               announcement.priority === "urgent"
                                 ? "text-red-600"
                                 : announcement.priority === "high"
-                                  ? "text-orange-600"
-                                  : "text-blue-600"
+                                ? "text-orange-600"
+                                : "text-blue-600"
                             }`}
                           />
                         </div>
                         <div>
-                          <h3 className="text-xl font-semibold text-brand-blue">{announcement.title}</h3>
+                          <h3 className="text-xl font-semibold text-brand-blue">
+                            {announcement.title}
+                          </h3>
                           <div className="flex items-center gap-4 text-sm text-gray-500 mt-1">
                             <div className="flex items-center gap-1">
                               <Calendar className="w-4 h-4" />
@@ -273,7 +259,9 @@ export default function AnnouncementsPage() {
                       <div>
                         <h4 className="font-semibold text-brand-blue mb-2">Contact Information:</h4>
                         <p className="text-sm text-gray-600">{announcement.contactInfo}</p>
-                        <p className="text-sm text-gray-500 mt-2">Valid until: {announcement.validUntil}</p>
+                        <p className="text-sm text-gray-500 mt-2">
+                          Valid until: {announcement.validUntil}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -281,6 +269,7 @@ export default function AnnouncementsPage() {
               })}
             </div>
 
+            {/* Load More */}
             <div className="text-center mt-12">
               {hasMore ? (
                 <button
@@ -297,34 +286,6 @@ export default function AnnouncementsPage() {
                   View Archived Announcements
                 </a>
               )}
-            </div>
-          </div>
-        </section>
-
-        {/* Emergency Contact */}
-        <section className="section-x bg-red-50">
-          <div className="container-x text-center">
-            <div className="max-w-2xl mx-auto">
-              <AlertTriangle className="w-12 h-12 text-red-600 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-brand-blue mb-4">Emergency Notifications</h2>
-              <p className="text-gray-600 mb-6">
-                For urgent municipal emergencies outside office hours, contact our emergency hotline. We also send SMS
-                alerts for critical announcements.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="tel:+94232235999"
-                  className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-red-600 text-white hover:bg-red-700 transition-colors"
-                >
-                  Emergency Hotline: +94 23 223 5999
-                </a>
-                <a
-                  href="/events/announcements/subscribe"
-                  className="inline-flex items-center justify-center px-6 py-3 rounded-full border border-red-600 text-red-600 hover:bg-red-600 hover:text-white transition-colors"
-                >
-                  Subscribe to SMS Alerts
-                </a>
-              </div>
             </div>
           </div>
         </section>

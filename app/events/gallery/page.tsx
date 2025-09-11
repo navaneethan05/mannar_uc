@@ -5,7 +5,7 @@ import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { Footer } from "@/components/footer"
 import { Breadcrumbs } from "@/components/breadcrumbs"
-import { Camera, Calendar, MapPin, Users } from "lucide-react"
+import { Camera, Calendar, MapPin, Users, Search } from "lucide-react"
 
 type Photo = {
   title: string
@@ -87,19 +87,33 @@ export default function GalleryPage() {
     },
   ]
 
+  const [search, setSearch] = useState("")
   const [sort, setSort] = useState<"latest" | "oldest">("latest")
   const [page, setPage] = useState(1)
   const pageSize = 6
 
-  const sorted = useMemo(() => {
-    const arr = [...photos]
-    arr.sort((a, b) => (sort === "latest" ? b.dateISO.localeCompare(a.dateISO) : a.dateISO.localeCompare(b.dateISO)))
-    return arr
-  }, [sort, photos])
+  const filteredAndSorted = useMemo(() => {
+    // Filter
+    const filtered = photos.filter((photo) => {
+      const q = search.toLowerCase()
+      return (
+        photo.title.toLowerCase().includes(q) ||
+        photo.location.toLowerCase().includes(q) ||
+        photo.category.toLowerCase().includes(q)
+      )
+    })
+    // Sort
+    filtered.sort((a, b) =>
+      sort === "latest"
+        ? b.dateISO.localeCompare(a.dateISO)
+        : a.dateISO.localeCompare(b.dateISO)
+    )
+    return filtered
+  }, [search, sort, photos])
 
-  const totalPages = Math.ceil(sorted.length / pageSize)
+  const totalPages = Math.ceil(filteredAndSorted.length / pageSize)
   const start = (page - 1) * pageSize
-  const visiblePhotos = sorted.slice(start, start + pageSize)
+  const visiblePhotos = filteredAndSorted.slice(start, start + pageSize)
 
   return (
     <div className="min-h-screen">
@@ -107,120 +121,151 @@ export default function GalleryPage() {
       <Navigation />
 
       <main>
-        <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Events", href: "/events" }, { label: "Gallery" }]} />
+        <Breadcrumbs
+          items={[
+            { label: "Home", href: "/" },
+            { label: "Events", href: "/events" },
+            { label: "Gallery" },
+          ]}
+        />
 
-        {/* Hero Section */}
-        <section className="section-x bg-gradient-to-br from-purple-600 to-purple-800">
-          <div className="container-x text-center">
-            <Camera className="w-16 h-16 text-white mx-auto mb-4" />
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Event Gallery</h1>
-            <p className="text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed">
-              Explore moments from Mannar's vibrant community events and public initiatives. Witness the spirit of
-              unity, progress, and civic engagement through our visual stories.
-            </p>
-          </div>
-        </section>
+       {/* Hero Section */}
+<section className="section-x bg-gradient-to-br from-purple-600 to-purple-800 relative">
+  <div className="container-x text-center py-20">
+    <Camera className="w-16 h-16 text-white mx-auto mb-4" />
+    <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
+      Event Gallery
+    </h1>
+    <p className="text-xl text-purple-100 max-w-3xl mx-auto leading-relaxed">
+      Explore moments from Mannar's vibrant community events and public
+      initiatives. Witness the spirit of unity, progress, and civic
+      engagement through our visual stories.
+    </p>
+  </div>
 
-        {/* Sort Bar */}
-        <section className="section-x bg-gray-50">
-          <div className="container-x">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold text-brand-blue">Gallery</h2>
-              <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-600">Filter:</span>
-                <button
-                  onClick={() => {
-                    setSort("latest")
-                    setPage(1)
-                  }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    sort === "latest" ? "bg-purple-600 text-white" : "bg-white text-gray-700 border border-gray-200 hover:bg-purple-100"
-                  }`}
-                >
-                  Latest
-                </button>
-                <button
-                  onClick={() => {
-                    setSort("oldest")
-                    setPage(1)
-                  }}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                    sort === "oldest" ? "bg-purple-600 text-white" : "bg-white text-gray-700 border border-gray-200 hover:bg-purple-100"
-                  }`}
-                >
-                  Oldest
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
+  {/* Search & Sort Bar floating 10px above bottom of Hero */}
+  <div className="absolute left-0 right-0 -bottom-10 z-20 px-4 md:px-0">
+    <div className="container-x flex flex-col md:flex-row items-center justify-between gap-4 md:gap-0 py-6 bg-white rounded-xl shadow-md">
+      {/* Search */}
+      <div className="relative w-full md:w-1/2">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+        <input
+          type="text"
+          placeholder="Search photos by title, location, or category..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value)
+            setPage(1)
+          }}
+          className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+        />
+      </div>
+
+      {/* Sort */}
+      <div className="flex gap-2 items-center">
+        <span className="text-gray-600 font-medium">Sort:</span>
+        <select
+          value={sort}
+          onChange={(e) => {
+            setSort(e.target.value as "latest" | "oldest")
+            setPage(1)
+          }}
+          className="px-4 py-2 rounded-full border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+        >
+          <option value="latest">Latest</option>
+          <option value="oldest">Oldest</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</section>
+
 
         {/* Photo Gallery */}
         <section className="section-x">
           <div className="container-x">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {visiblePhotos.map((photo, index) => (
-                <div key={index} className="card-x overflow-hidden group hover:shadow-lg transition-all duration-300">
-                  <div className="aspect-video overflow-hidden rounded-t-xl">
-                    <img
-                      src={photo.image || "/placeholder.svg"}
-                      alt={photo.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                        {photo.category}
-                      </span>
-                      <div className="flex items-center gap-1 text-sm text-gray-500">
-                        <Calendar className="w-4 h-4" />
-                        <span>{photo.dateLabel}</span>
+            {visiblePhotos.length === 0 ? (
+              <p className="text-center text-gray-500 py-10">
+                No photos found.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {visiblePhotos.map((photo, index) => (
+                  <div
+                    key={index}
+                    className="card-x overflow-hidden group hover:shadow-lg transition-all duration-300"
+                  >
+                    <div className="aspect-video overflow-hidden rounded-t-xl">
+                      <img
+                        src={photo.image || "/placeholder.svg"}
+                        alt={photo.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                    <div className="p-6">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="inline-block px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                          {photo.category}
+                        </span>
+                        <div className="flex items-center gap-1 text-sm text-gray-500">
+                          <Calendar className="w-4 h-4" />
+                          <span>{photo.dateLabel}</span>
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-semibold text-brand-blue mb-2">
+                        {photo.title}
+                      </h3>
+                      <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                        {photo.description}
+                      </p>
+                      <div className="space-y-2 text-sm text-gray-500">
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />
+                          <span>{photo.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <Users className="w-4 h-4" />
+                          <span>{photo.participants}</span>
+                        </div>
                       </div>
                     </div>
-                    <h3 className="text-xl font-semibold text-brand-blue mb-2">{photo.title}</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed mb-4">{photo.description}</p>
-                    <div className="space-y-2 text-sm text-gray-500">
-                      <div className="flex items-center gap-2">
-                        <MapPin className="w-4 h-4" />
-                        <span>{photo.location}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4" />
-                        <span>{photo.participants}</span>
-                      </div>
-                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
             {/* Pagination */}
-            <div className="flex items-center justify-center gap-2 mt-12">
-              <button
-                className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
-                disabled={page === 1}
-                onClick={() => setPage((p) => Math.max(1, p - 1))}
-              >
-                &lt;
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-2 mt-12">
                 <button
-                  key={p}
-                  onClick={() => setPage(p)}
-                  className={`px-3 py-1 rounded border ${p === page ? "bg-purple-600 text-white border-purple-600" : "border-gray-300 hover:bg-gray-50"}`}
+                  className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+                  disabled={page === 1}
+                  onClick={() => setPage((p) => Math.max(1, p - 1))}
                 >
-                  {p}
+                  &lt;
                 </button>
-              ))}
-              <button
-                className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
-                disabled={page === totalPages}
-                onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-              >
-                Next &gt;
-              </button>
-            </div>
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => setPage(p)}
+                    className={`px-3 py-1 rounded border ${
+                      p === page
+                        ? "bg-purple-600 text-white border-purple-600"
+                        : "border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+                <button
+                  className="px-3 py-1 rounded border border-gray-300 hover:bg-gray-50"
+                  disabled={page === totalPages}
+                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+                >
+                  Next &gt;
+                </button>
+              </div>
+            )}
           </div>
         </section>
 
@@ -229,10 +274,13 @@ export default function GalleryPage() {
           <div className="container-x text-center">
             <div className="max-w-2xl mx-auto">
               <Camera className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-              <h2 className="text-2xl font-bold text-brand-blue mb-4">Share Your Photos</h2>
+              <h2 className="text-2xl font-bold text-brand-blue mb-4">
+                Share Your Photos
+              </h2>
               <p className="text-gray-600 mb-6">
-                Have photos from municipal events or community activities? Share them with us to be featured in our
-                gallery and celebrate our community spirit together.
+                Have photos from municipal events or community activities? Share
+                them with us to be featured in our gallery and celebrate our
+                community spirit together.
               </p>
               <a
                 href="/events/gallery/submit"
