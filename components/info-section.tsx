@@ -43,7 +43,7 @@ export function InfoSection() {
           Municipal Services & Information
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {services.map((service, index) => {
             const IconComponent = service.icon
             return (
@@ -69,19 +69,20 @@ export function InfoSection() {
               </div>
             )
           })}
-        </div>
 
-        {/* Additional Services Row */}
-        <div className="mt-12 text-center">
-          <p className="text-white/80 text-lg mb-6">
-            Need help with something else? Our comprehensive service directory has you covered.
-          </p>
+          {/* "+5 More Services" card */}
           <a
             href="/info"
-            className="inline-flex items-center px-6 py-3 rounded-full bg-white text-primary font-medium hover:bg-white/90 transition-colors gap-2"
+            aria-label="View more services"
+            className="bg-white/10 backdrop-blur rounded-2xl p-6 ring-1 ring-white/20 hover:bg-white/20 transition-all duration-300 group flex flex-col justify-between"
           >
-            View All Services
-            <ArrowRight className="w-4 h-4" />
+            <div>
+              <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mb-4 group-hover:bg-white/30 transition-colors">
+                <ArrowRight className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="text-white font-semibold text-lg mb-3">+5 More Services →</h3>
+              <p className="text-white/80 text-sm leading-6">Explore additional municipal services and information.</p>
+            </div>
           </a>
         </div>
       </div>
