@@ -21,9 +21,10 @@ export default function HomePage() {
         <ChairmanSection />
         <EventsSection />
         <InfoSection />
-        <ContactSection />
+       
         <HomeGallerySection />
         <TourismMediaSection />
+         <ContactSection />
       </main>
       <Footer />
     </div>

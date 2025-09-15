@@ -1,21 +1,21 @@
 "use client"
 
 import type React from "react"
-
 import { useState, useCallback, useRef } from "react"
 import { ChevronDown, ChevronUp, MapPin, Phone, Mail } from "lucide-react"
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"
+import {ArrowRight} from "lucide-react"
 
 const containerStyle = {
   width: '100%',
-  height: '100%'
-};
+  height: '400px',
+}
 
-// Extracted coordinates for Urban Council Mannar from the URL
+// ✅ CORRECTED COORDINATES FROM YOUR GOOGLE MAPS LINK
 const defaultCenter = {
-  lat: 8.979872,
-  lng: 79.9099636
-};
+  lat: 8.9798667,
+  lng: 79.9125385,
+}
 
 export function ContactSection() {
   const [formData, setFormData] = useState({
@@ -25,6 +25,7 @@ export function ContactSection() {
   })
 
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -33,10 +34,18 @@ export function ContactSection() {
     })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
+    setIsSubmitting(true)
+
     console.log("Form submitted:", formData)
+
+    // Simulate API call
+    setTimeout(() => {
+      setFormData({ name: "", email: "", message: "" })
+      setIsSubmitting(false)
+      alert("Thank you! Your message has been sent.")
+    }, 1500)
   }
 
   const faqs = [
@@ -64,139 +73,227 @@ export function ContactSection() {
 
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    // You need to get a valid Google Maps API Key and replace this placeholder.
-    // The map won't load correctly until a key is provided.
-    googleMapsApiKey: "YOUR_GOOGLE_MAPS_API_KEY"
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || "YOUR_GOOGLE_MAPS_API_KEY_HERE",
   })
 
-  const mapRef = useRef(undefined)
-  const onMapLoad = useCallback(function callback(map) {
+  const mapRef = useRef<google.maps.Map | null>(null)
+  const onMapLoad = useCallback((map: google.maps.Map) => {
     mapRef.current = map
   }, [])
-  const onMapUnmount = useCallback(function callback(map) {
-    mapRef.current = undefined
+
+  const onMapUnmount = useCallback(() => {
+    mapRef.current = null
   }, [])
 
   return (
-    <section id="contact" className="section-x">
+    <section id="contact" className="py-16 bg-gray-50">
       <div className="container-x">
-        <h2 className="title-x text-center mb-8">Contact Us</h2>
+        <h2 className="title-x text-center mb-12 text-3xl md:text-4xl font-bold text-gray-800">Contact Us</h2>
 
-        <div className="grid md:grid-cols-2 gap-10 items-start">
-          {/* Left - Form Card */}
-          <div className="bg-white rounded-2xl shadow-lg p-6">
-            <h3 className="text-xl font-bold text-primary mb-4">Have Something Useful For Us?</h3>
+        <div className="grid lg:grid-cols-2 gap-12 items-start">
+          {/* Left - Contact Form Card — Match HeroSection Style */}
+          <div className="bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h3>
+            <p className="text-gray-600 mb-8 leading-relaxed">
+              We’d love to hear from you. Fill out the form below and we’ll respond within 1–2 business days.
+            </p>
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  placeholder="Jhon Smith"
-                  className="w-full bg-transparent px-2 pb-2 border-b border-gray-300 focus:border-primary outline-none"
+                  placeholder="John Smith"
+                  className="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none bg-white"
                   required
-                  aria-label="Your Name"
+                  aria-required="true"
                 />
               </div>
+
               <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  Email Address
+                </label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  placeholder="email@gmail.com"
-                  className="w-full bg-transparent px-2 pb-2 border-b border-gray-300 focus:border-primary outline-none"
+                  placeholder="john@example.com"
+                  className="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none bg-white"
                   required
-                  aria-label="Your Email"
+                  aria-required="true"
                 />
               </div>
+
               <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  Message
+                </label>
                 <textarea
                   id="message"
                   name="message"
                   value={formData.message}
                   onChange={handleInputChange}
-                  placeholder="Your Message"
+                  placeholder="Tell us how we can help..."
                   rows={6}
-                  className="w-full bg-transparent px-2 pb-2 border-b border-gray-300 focus:border-primary outline-none resize-y"
+                  className="w-full px-5 py-4 border border-gray-200 rounded-2xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all outline-none resize-y bg-white"
                   required
-                  aria-label="Your Message"
+                  aria-required="true"
                 />
               </div>
-              <button type="submit" className="w-full px-6 py-3 rounded-lg bg-[#001f4d] text-white font-semibold">
-                Send message
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-8 py-4 bg-[#001f4d] text-white font-semibold rounded-2xl hover:bg-[#00153a] focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-300 flex items-center justify-center gap-3 shadow-md hover:shadow-lg"
+              >
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    Send Message
+                    <ArrowRight className="w-5 h-5" />
+                  </>
+                )}
               </button>
             </form>
           </div>
 
-          {/* Right - Quick Info and Google Map */}
+          {/* Right - Info + Map Cards — Match HeroSection Design Language */}
           <div className="space-y-6">
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <div className="grid sm:grid-cols-2 gap-4 mt-4">
-                <div className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-primary" />
+            {/* Contact Info Card */}
+            <div className="bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">Quick Contact</h3>
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 p-3 bg-blue-50 rounded-xl">
+                    <Phone className="w-5 h-5 text-primary" />
+                  </div>
                   <div>
                     <p className="font-medium text-gray-900">+94 11 234 5678</p>
-                    <p className="text-gray-600 text-sm">Mon–Fri, 8:00–16:30</p>
+                    <p className="text-gray-600 text-sm mt-1">Mon–Fri, 8:00 AM – 4:30 PM</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-primary" />
+                <div className="flex items-start gap-4">
+                  <div className="flex-shrink-0 p-3 bg-blue-50 rounded-xl">
+                    <Mail className="w-5 h-5 text-primary" />
+                  </div>
                   <div>
                     <p className="font-medium text-gray-900">info@municipal.gov.lk</p>
-                    <p className="text-gray-600 text-sm">We reply within 1–2 days</p>
+                    <p className="text-gray-600 text-sm mt-1">We reply within 1–2 business days</p>
                   </div>
                 </div>
-                <div className="flex items-start gap-3 sm:col-span-2">
-                  <MapPin className="w-5 h-5 text-primary mt-0.5" />
+                <div className="flex items-start gap-4 sm:col-span-2">
+                  <div className="flex-shrink-0 p-3 bg-blue-50 rounded-xl">
+                    <MapPin className="w-5 h-5 text-primary" />
+                  </div>
                   <div>
-                    <p className="font-medium text-gray-900">123 Main Street, City Center, Colombo 00100</p>
+                    <p className="font-medium text-gray-900">Urban Council Mannar</p>
+                    <p className="text-gray-600 text-sm mt-1">Mannar, Sri Lanka</p>
                   </div>
                 </div>
               </div>
             </div>
-            
-            <div className="rounded-xl overflow-hidden aspect-video bg-gray-200">
-              {isLoaded ? (
-                <GoogleMap
-                  mapContainerStyle={containerStyle}
-                  center={defaultCenter}
-                  zoom={15}
-                  onLoad={onMapLoad}
-                  onUnmount={onMapUnmount}
-                >
-                  <Marker position={defaultCenter} />
-                </GoogleMap>
-              ) : (
-                <div>Loading map...</div>
-              )}
+
+            {/* Google Map Card — Styled Like HeroSection */}
+            <div className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300">
+              <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
+                <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-primary" />
+                  Find Us On Map
+                </h3>
+              </div>
+              <div className="relative">
+                {isLoaded ? (
+                  <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={defaultCenter}
+                    zoom={16}
+                    options={{
+                      disableDefaultUI: false,
+                      zoomControl: true,
+                      streetViewControl: false,
+                      mapTypeControl: false,
+                      fullscreenControl: false,
+                      gestureHandling: 'greedy',
+                      draggable: true,
+                      scrollwheel: true,
+                    }}
+                    onLoad={onMapLoad}
+                    onUnmount={onMapUnmount}
+                  >
+                    <Marker
+                      position={defaultCenter}
+                      title="Urban Council Mannar Office"
+                      aria-label="Urban Council Mannar Office Location"
+                      icon={{
+                        path: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z',
+                        fillColor: '#001f4d',
+                        fillOpacity: 1,
+                        strokeWeight: 2,
+                        strokeColor: '#ffffff',
+                        scale: 1.5,
+                      }}
+                    />
+                  </GoogleMap>
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center bg-gray-50 p-8">
+                    <div className="inline-block animate-pulse bg-gray-300 rounded-xl w-16 h-16 mb-4"></div>
+                    <p className="text-gray-600 font-medium text-center">
+                      Loading Interactive Map...
+                    </p>
+                    <p className="text-sm text-gray-500 text-center mt-2 max-w-xs">
+                      Please ensure JavaScript is enabled and your API key is configured.
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* FAQs */}
+        {/* FAQs — Match HeroSection Spacing & Feel */}
         <div className="mt-16">
-          <h3 className="text-2xl font-semibold text-primary text-center mb-8">Frequently Asked Questions</h3>
-          <div className="max-w-3xl mx-auto space-y-4">
+          <h3 className="text-3xl font-bold text-primary text-center mb-12">Frequently Asked Questions</h3>
+          <div className="max-w-4xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
-              <div key={index} className="border border-gray-200 rounded-xl overflow-hidden">
+              <div
+                key={index}
+                className="border border-gray-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 bg-white"
+              >
                 <button
-                  className="w-full px-6 py-4 text-left flex justify-between items-center hover:bg-gray-50 transition-colors"
+                  className="w-full px-8 py-6 text-left flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-primary hover:bg-gray-50 transition-colors"
                   onClick={() => setExpandedFaq(expandedFaq === index ? null : index)}
+                  aria-expanded={expandedFaq === index}
+                  aria-controls={`faq-answer-${index}`}
                 >
-                  <span className="font-medium text-gray-900 pr-4">{faq.question}</span>
+                  <span className="font-semibold text-gray-800 text-lg">{faq.question}</span>
                   {expandedFaq === index ? (
-                    <ChevronUp className="w-5 h-5 text-primary flex-shrink-0" />
+                    <ChevronUp className="w-6 h-6 text-primary flex-shrink-0" />
                   ) : (
-                    <ChevronDown className="w-5 h-5 text-primary flex-shrink-0" />
+                    <ChevronDown className="w-6 h-6 text-primary flex-shrink-0" />
                   )}
                 </button>
                 {expandedFaq === index && (
-                  <div className="px-6 pb-4">
-                    <p className="text-gray-600 leading-7">{faq.answer}</p>
+                  <div
+                    id={`faq-answer-${index}`}
+                    className="px-8 pb-8 pt-0 animate-fadeIn"
+                  >
+                    <p className="text-gray-600 leading-relaxed text-base">{faq.answer}</p>
                   </div>
                 )}
               </div>

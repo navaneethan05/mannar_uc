@@ -4,14 +4,14 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff; /* Keep page background white */
-  --foreground: #111827; /* Dark text */
+  --background: #ffffff; /* White page background — as requested */
+  --foreground: #111827; /* Deep charcoal — replaces #1C2B78 as main text */
   --card: #ffffff;
   --card-foreground: #111827;
   --popover: #ffffff;
   --popover-foreground: #111827;
-  --primary: #1C2B78; /* ✅ Your Brand Blue */
-  --primary-foreground: #ffffff; /* White text on primary */
+  --primary: #111827; /* ✅ ALL #1C2B78 replaced with #111827 */
+  --primary-foreground: #ffffff; /* White text on dark buttons/cards */
   --secondary: #f3f4f6;
   --secondary-foreground: #111827;
   --muted: #f3f4f6;
@@ -22,8 +22,8 @@
   --destructive-foreground: #ffffff;
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #1C2B78; /* Match ring to primary */
-  --chart-1: #1C2B78;
+  --ring: #111827; /* ✅ Ring color now matches new primary */
+  --chart-1: #111827;
   --chart-2: #3b82f6;
   --chart-3: #10b981;
   --chart-4: #f59e0b;
@@ -31,22 +31,22 @@
   --radius: 0.625rem;
   --sidebar: #ffffff;
   --sidebar-foreground: #111827;
-  --sidebar-primary: #1C2B78;
+  --sidebar-primary: #111827;
   --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #f3f4f6;
   --sidebar-accent-foreground: #111827;
   --sidebar-border: #e5e7eb;
-  --sidebar-ring: #1C2B78;
+  --sidebar-ring: #111827;
 }
 
 .dark {
-  --background: #0f172a; /* Dark slate */
-  --foreground: #f8fafc; /* Light text */
+  --background: #0f172a;
+  --foreground: #f8fafc;
   --card: #1e293b;
   --card-foreground: #f8fafc;
   --popover: #1e293b;
   --popover-foreground: #f8fafc;
-  --primary: #334155; /* Darker blue-gray for contrast */
+  --primary: #334155;
   --primary-foreground: #f8fafc;
   --secondary: #334155;
   --secondary-foreground: #f8fafc;
@@ -58,7 +58,7 @@
   --destructive-foreground: #ffffff;
   --border: #334155;
   --input: #334155;
-  --ring: #60a5fa; /* Softer blue ring in dark mode */
+  --ring: #60a5fa;
   --chart-1: #60a5fa;
   --chart-2: #38bdf8;
   --chart-3: #22d3ee;
@@ -123,3 +123,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ✅ Custom Animations — Fade In Up */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Optional: Staggered animation delay for multiple elements */
+.animate-fade-in-up:nth-child(1) { animation-delay: 0.1s; }
+.animate-fade-in-up:nth-child(2) { animation-delay: 0.2s; }
+.animate-fade-in-up:nth-child(3) { animation-delay: 0.3s; }
+.animate-fade-in-up:nth-child(4) { animation-delay: 0.4s; }
+.animate-fade-in-up:nth-child(5) { animation-delay: 0.5s; }
+.animate-fade-in-up:nth-child(6) { animation-delay: 0.6s; }
