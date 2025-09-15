@@ -1,7 +1,11 @@
+"use client"
+
 import { TopBar } from "@/components/top-bar";
 import { Navigation } from "@/components/navigation";
 import { ContactSection } from "@/components/contact-section";
 import { Footer } from "@/components/footer";
+import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function ChairmanPage() {
   return (
@@ -11,48 +15,48 @@ export default function ChairmanPage() {
 
       {/* Hero Section */}
       <section
-        className="relative bg-cover bg-center min-h-[70vh] flex items-center"
+        className="relative bg-cover bg-center min-h-[70vh] flex items-center overflow-hidden"
         style={{
-          backgroundImage:
-            "url('/chairman-portrait-professional-municipal-leader.jpg')",
+          backgroundImage: "url('/Group1.png')",
         }}
       >
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center md:text-left">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        {/* Parallax and Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent parallax-bg" />
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center md:text-left py-16">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-200 mb-6 animate-fade-in">
             Balen Shah
           </h1>
-          <p className="text-lg md:text-xl text-white/90">
+          <p className="text-lg md:text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto md:mx-0 mb-8 animate-slide-up">
             Leader in sustainable development, transparency, and community-driven governance.
           </p>
+          <Link href="#contact" className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 animate-pulse-slow">
+            Get Involved <ArrowRight className="ml-2 w-5 h-5" />
+          </Link>
         </div>
       </section>
 
       {/* Main Card */}
-      <div className="relative -mt-32 w-full max-w-5xl mx-auto bg-white shadow-2xl rounded-3xl p-8 sm:p-10 md:p-12 z-10 space-y-16">
-
+      <div className="relative -mt-24 max-w-7xl mx-auto bg-white shadow-2xl rounded-3xl p-6 sm:p-8 md:p-10 z-10 transform transition-all duration-300 hover:shadow-3xl">
         {/* Who is Balen */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-[#0B2C6A] mb-4">Who is Balen?</h2>
-          <p className="text-gray-700 leading-relaxed text-lg md:text-xl">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-[#0B2C6A] mb-6">Who is Balen?</h2>
+          <p className="text-gray-700 leading-relaxed text-lg md:text-xl max-w-3xl mx-auto">
             Balen Shah is a prominent figure in Nepal known for his work as an engineer, rapper, and politician. His leadership focuses on sustainable development, transparency, and community-driven governance.
           </p>
         </div>
 
         {/* Academics & Qualifications */}
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="grid md:grid-cols-2 gap-8 items-center mb-12">
           <div className="flex justify-center md:justify-end">
             <img
               src="/municipal-council-logo-emblem.jpg"
               alt="Academic emblem"
-              className="rounded-xl shadow-lg w-full md:w-[85%] object-cover"
+              className="rounded-xl shadow-lg w-full md:w-[85%] object-cover transition-transform duration-300 hover:scale-105"
+              loading="lazy"
             />
           </div>
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#0B2C6A] mb-6">
-              Academics & Qualifications
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0B2C6A] mb-6">Academics & Qualifications</h2>
             <ul className="space-y-5 text-gray-700">
               <li>
                 <p className="font-semibold text-lg">Master of Science (Mechanical Engineering, Production Technology)</p>
@@ -77,24 +81,32 @@ export default function ChairmanPage() {
         {/* Honours, Awards & Publications */}
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold text-[#0B2C6A] mb-6 text-center md:text-left">
-              Honours, Awards & Publications
-            </h2>
-            <ul className="space-y-4 text-gray-700 list-disc list-inside text-sm md:text-base">
-              <li><span className="font-semibold">Greater Good Award</span> – Mizani Africa, Nairobi, Kenya, May 2021</li>
-              <li><span className="font-semibold">Doctor of Sciences (Honoris Causa)</span> – Jaramogi Oginga Odinga University of Science & Technology, Siaya, Kenya, Dec 2018</li>
-              <li><span className="font-semibold">The Quest For Nationhood Roadmap To Our Future</span> – Nairobi: Mountaintop Publishers, 2017</li>
-              <li><span className="font-semibold">HE FLAME OF FREEDOM</span> – Nairobi: Mountaintop Publishers, 2013</li>
-              <li><span className="font-semibold">Doctorate of Leadership in Social Development (Honoris Causa)</span> – Limkokwing University, Kuala Lumpur, May 2012</li>
-              <li><span className="font-semibold">Honorary Doctorate</span> – Florida Agricultural Mechanical University, USA, 2009</li>
-              <li><span className="font-semibold">Doctor of Laws (LL.D) (Honoris Causa)</span> – University of Nairobi, Kenya, Oct 2008</li>
+            <h2 className="text-2xl md:text-3xl font-bold text-[#0B2C6A] mb-6 text-center md:text-left">Honours, Awards & Publications</h2>
+            <ul className="space-y-6 text-gray-700 list-disc list-inside">
+              <li>
+                <span className="font-semibold text-lg">Master of Science (M.Sc.) in Mechanical Engineering (Production Technology)</span>
+                <p className="text-sm text-gray-500 mt-1">Tribhuvan University, Kathmandu, Nepal</p>
+              </li>
+              <li>
+                <span className="font-semibold text-lg">Bachelor of Engineering (B.E.) in Civil Engineering</span>
+                <p className="text-sm text-gray-500 mt-1">Institute of Engineering, Pulchowk Campus, Tribhuvan University, Nepal</p>
+              </li>
+              <li>
+                <span className="font-semibold text-lg">Certificate in Senior Management</span>
+                <p className="text-sm text-gray-500 mt-1">Nepal Engineering Council, Kathmandu, Nepal</p>
+              </li>
+              <li>
+                <span className="font-semibold text-lg">Certificate in Standardization & Quality Control</span>
+                <p className="text-sm text-gray-500 mt-1">Nepal Bureau of Standards and Metrology, Lalitpur, Nepal</p>
+              </li>
             </ul>
           </div>
           <div className="flex justify-center md:justify-end">
             <img
               src="/municipal-council-logo-emblem.jpg"
               alt="Award photo"
-              className="rounded-xl shadow-lg w-full md:w-[85%] object-cover"
+              className="rounded-xl shadow-lg w-full md:w-[85%] object-cover transition-transform duration-300 hover:scale-105"
+              loading="lazy"
             />
           </div>
         </div>
