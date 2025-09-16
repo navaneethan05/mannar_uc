@@ -126,9 +126,9 @@ export function EventsSection() {
             {/* Announcements Panel */}
             <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center">
+                {/* <div className="w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center">
                   <Megaphone className="w-4 h-4" />
-                </div>
+                </div> */}
                 <h3 className="text-lg font-bold text-primary">ANNOUNCEMENTS</h3>
               </div>
               <div className="space-y-4">
@@ -164,9 +164,9 @@ export function EventsSection() {
             {/* Notices Panel */}
             <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
               <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center">
+                {/* <div className="w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center">
                   <AlertTriangle className="w-4 h-4" />
-                </div>
+                </div> */}
                 <h3 className="text-lg font-bold text-primary">NOTICES</h3>
               </div>
               <div className="space-y-4">

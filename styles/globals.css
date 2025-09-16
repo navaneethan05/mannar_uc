@@ -1,18 +1,17 @@
-@import 'tailwindcss';
+/* @import 'tailwindcss';
 @import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff; /* White page background — as requested */
-  --foreground: #111827; /* Deep charcoal — replaces #1C2B78 as main text */
+  --background: #ffffff; 
+  --foreground: #111827; 
   --card: #ffffff;
   --card-foreground: #111827;
   --popover: #ffffff;
   --popover-foreground: #111827;
-  --primary: #111827; /* ✅ ALL #1C2B78 replaced with #111827 */
-  --primary-foreground: #ffffff; /* White text on dark buttons/cards */
-  --secondary: #f3f4f6;
+  --primary: #111827; 
+  --primary-foreground: #ffffff; 
   --secondary-foreground: #111827;
   --muted: #f3f4f6;
   --muted-foreground: #6b7280;
@@ -22,7 +21,7 @@
   --destructive-foreground: #ffffff;
   --border: #e5e7eb;
   --input: #e5e7eb;
-  --ring: #111827; /* ✅ Ring color now matches new primary */
+  --ring: #111827; 
   --chart-1: #111827;
   --chart-2: #3b82f6;
   --chart-3: #10b981;
@@ -124,7 +123,7 @@
   }
 }
 
-/* ✅ Custom Animations — Fade In Up */
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -140,10 +139,10 @@
   animation: fadeInUp 0.8s ease-out forwards;
 }
 
-/* Optional: Staggered animation delay for multiple elements */
+
 .animate-fade-in-up:nth-child(1) { animation-delay: 0.1s; }
 .animate-fade-in-up:nth-child(2) { animation-delay: 0.2s; }
 .animate-fade-in-up:nth-child(3) { animation-delay: 0.3s; }
 .animate-fade-in-up:nth-child(4) { animation-delay: 0.4s; }
 .animate-fade-in-up:nth-child(5) { animation-delay: 0.5s; }
-.animate-fade-in-up:nth-child(6) { animation-delay: 0.6s; }
+.animate-fade-in-up:nth-child(6) { animation-delay: 0.6s; } */
