@@ -59,7 +59,7 @@ export function Navigation() {
   ]
 
   const infoDropdown = [
-    { name: "Services", href: "/info" },
+    { name: "Services", href: "/info/services" },
     { name: "Tourism", href: "/info/tourism" },
    
   ]
