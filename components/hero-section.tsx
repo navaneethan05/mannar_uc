@@ -102,13 +102,13 @@ export function HeroSection() {
       {/* Controls */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-6">
         {/* Play/Pause Button */}
-        <button
+        {/* <button
           onClick={togglePlay}
           className="p-3 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-colors"
           aria-label={isPlaying ? "Pause slideshow" : "Play slideshow"}
         >
           {isPlaying ? <Pause className="w-5 h-5 text-white" /> : <Play className="w-5 h-5 text-white" />}
-        </button>
+        </button> */}
 
         {/* Navigation Dots */}
         <div className="flex items-center gap-3">
@@ -126,27 +126,7 @@ export function HeroSection() {
           ))}
         </div>
 
-        {/* Navigation Arrows */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={prevSlide}
-            className="p-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-colors"
-            aria-label="Previous slide"
-          >
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <button
-            onClick={nextSlide}
-            className="p-2 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 transition-colors"
-            aria-label="Next slide"
-          >
-            <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+       
       </div>
 
       {/* Scroll Indicator */}
