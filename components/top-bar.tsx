@@ -2,10 +2,29 @@
 
 import { useState, useEffect } from "react"
 import { Phone, Mail, Globe } from "lucide-react"
+import { useRouter } from 'next/router'
+import { useTranslation } from 'next-i18next'
 
 export function TopBar() {
+  const { t } = useTranslation('common')
+  const router = useRouter()
   const [currentTime, setCurrentTime] = useState("")
-  const [language, setLanguage] = useState("English")
+  
+  const languages = [
+    { code: 'en', name: 'English', nativeName: 'English' },
+    { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்' },
+    { code: 'si', name: 'Sinhala', nativeName: 'සිංහල' }
+  ]
+  
+  const currentLanguage = router.locale || 'en'
+  const getCurrentLanguageName = () => {
+    const lang = languages.find(l => l.code === currentLanguage)
+    return lang?.nativeName || 'English'
+  }
+  
+  const changeLanguage = (locale: string) => {
+    router.push(router.asPath, router.asPath, { locale })
+  }
 
   useEffect(() => {
     const updateTime = () => {
@@ -26,7 +45,6 @@ export function TopBar() {
     return () => clearInterval(interval)
   }, [])
 
-  const languages = ["English", "සිංහල", "தமிழ்"]
 
   return (
     <div className="bg-primary text-primary-foreground">
@@ -37,31 +55,39 @@ export function TopBar() {
 
         <div className="flex items-center gap-4">
           <div className="hidden sm:flex items-center gap-4">
-            <a href="tel:+94112345678" className="flex items-center gap-1 hover:opacity-80 transition-opacity">
+            <a href={`tel:${t('topbar.phone')}`} className="flex items-center gap-1 hover:opacity-80 transition-opacity">
               <Phone className="w-3 h-3" />
-              <span>+94 11 234 5678</span>
+              <span>{t('topbar.phone')}</span>
             </a>
             <a
-              href="mailto:info@municipal.gov.lk"
+              href={`mailto:${t('topbar.email')}`}
               className="flex items-center gap-1 hover:opacity-80 transition-opacity"
             >
               <Mail className="w-3 h-3" />
-              <span>info@municipal.gov.lk</span>
+              <span>{t('topbar.email')}</span>
             </a>
           </div>
 
           <div className="relative">
-            <button
-              className="flex items-center gap-1 hover:opacity-80 transition-opacity"
-              onClick={() => {
-                const currentIndex = languages.indexOf(language)
-                const nextIndex = (currentIndex + 1) % languages.length
-                setLanguage(languages[nextIndex])
-              }}
-            >
-              <Globe className="w-3 h-3" />
-              <span>{language}</span>
-            </button>
+            <div className="relative group">
+              <button className="flex items-center gap-1 hover:opacity-80 transition-opacity">
+                <Globe className="w-3 h-3" />
+                <span>{getCurrentLanguageName()}</span>
+              </button>
+              <div className="absolute right-0 top-full mt-1 bg-white text-gray-800 rounded-lg shadow-lg border border-gray-200 py-1 min-w-[120px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => changeLanguage(lang.code)}
+                    className={`block w-full text-left px-3 py-2 text-sm hover:bg-gray-100 transition-colors ${
+                      currentLanguage === lang.code ? 'bg-primary/10 text-primary font-medium' : ''
+                    }`}
+                  >
+                    {lang.nativeName}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

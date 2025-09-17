@@ -4,8 +4,10 @@ import { useState, useEffect, useRef } from "react"
 import { usePathname } from 'next/navigation'
 import { Menu, X, ChevronDown } from "lucide-react"
 import Image from "next/image"
+import { useTranslation } from 'next-i18next'
 
 export function Navigation() {
+  const { t } = useTranslation('common')
   const pathname = usePathname()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [openDropdown, setOpenDropdown] = useState<string | null>(null)
@@ -47,20 +49,20 @@ export function Navigation() {
   }
 
   const baseItems = [
-    { name: "Home", href: "/" },
-    { name: "Chairman", href: "/chairman" },
+    { name: t('navigation.home'), href: "/" },
+    { name: t('navigation.chairman'), href: "/chairman" },
   ]
 
   const eventsDropdown = [
-    { name: "Gallery", href: "/events/gallery" },
-    { name: "News", href: "/events/news" },
-    { name: "Announcements", href: "/events/announcements" },
-    { name: "Notices", href: "/events/notices" },
+    { name: t('navigation.gallery'), href: "/events/gallery" },
+    { name: t('navigation.news'), href: "/events/news" },
+    { name: t('navigation.announcements'), href: "/events/announcements" },
+    { name: t('navigation.notices'), href: "/events/notices" },
   ]
 
   const infoDropdown = [
-    { name: "Services", href: "/info/services" },
-    { name: "Tourism", href: "/info/tourism" },
+    { name: t('navigation.services'), href: "/info/services" },
+    { name: t('navigation.tourism'), href: "/info/tourism" },
    
   ]
 
@@ -82,8 +84,8 @@ export function Navigation() {
             />
           </div>
           <div className="hidden sm:block">
-            <h1 className="text-lg font-semibold text-primary">Mannar Urban Council</h1>
-            <p className="text-xs text-muted-foreground">Official Website</p>
+            <h1 className="text-lg font-semibold text-primary">{t('site.title')}</h1>
+            <p className="text-xs text-muted-foreground">{t('site.subtitle')}</p>
           </div>
         </div>
 
@@ -120,7 +122,7 @@ export function Navigation() {
               aria-expanded={openDropdown === "events"}
               onClick={() => setOpenDropdown(openDropdown === "events" ? null : "events")}
             >
-              Events & Updates
+              {t('navigation.events')}
               <ChevronDown
                 className={`w-4 h-4 transition-transform ${
                   openDropdown === "events" ? "rotate-180" : "group-hover:rotate-180"
@@ -175,7 +177,7 @@ export function Navigation() {
               aria-expanded={openDropdown === "info"}
               onClick={() => setOpenDropdown(openDropdown === "info" ? null : "info")}
             >
-              Information
+              {t('navigation.information')}
               <ChevronDown
                 className={`w-4 h-4 transition-transform ${
                   openDropdown === "info" ? "rotate-180" : "group-hover:rotate-180"
@@ -223,7 +225,7 @@ export function Navigation() {
             }`}
             onClick={() => setOpenDropdown(null)}
           >
-            Contact Us
+            {t('navigation.contact')}
           </a>
         </div>
 
@@ -262,7 +264,7 @@ export function Navigation() {
                   isEventsActive ? 'bg-[#1C2B78] text-white' : 'text-primary'
                 }`}
               >
-                Events & Updates
+                {t('navigation.events')}
                 <span className="group-open:rotate-180 transition-transform">
                   <ChevronDown className="w-4 h-4" />
                 </span>
@@ -291,7 +293,7 @@ export function Navigation() {
                   isInfoActive ? 'bg-[#1C2B78] text-white' : 'text-primary'
                 }`}
               >
-                Information
+                {t('navigation.information')}
                 <span className="group-open:rotate-180 transition-transform">
                   <ChevronDown className="w-4 h-4" />
                 </span>
@@ -323,7 +325,7 @@ export function Navigation() {
               }`}
               onClick={() => setIsMenuOpen(false)}
             >
-              Contact Us
+              {t('navigation.contact')}
             </a>
           </div>
         </div>
