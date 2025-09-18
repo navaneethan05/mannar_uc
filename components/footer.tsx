@@ -1,15 +1,12 @@
 import { MapPin, Phone, Mail, Facebook, Twitter, Instagram, Youtube } from "lucide-react"
-import { useTranslation } from 'next-i18next'
 
 export function Footer() {
-  const { t } = useTranslation('common')
-  
   const quickLinks = [
-    { name: t('navigation.chairman'), href: "/about" },
-    { name: t('navigation.services'), href: "#info" },
-    { name: t('navigation.events'), href: "#events" },
-    { name: t('navigation.news'), href: "#news" },
-    { name: t('navigation.contact'), href: "#contact" },
+    { name: "Chairman", href: "/about" },
+    { name: "Services", href: "/info" },
+    { name: "Events", href: "/events" },
+    { name: "News", href: "/events/news" },
+    { name: "Contact", href: "/contact" },
     { name: "Privacy Policy", href: "#privacy" },
     { name: "Terms of Service", href: "#terms" },
     { name: "Sitemap", href: "#sitemap" },
@@ -30,9 +27,9 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* About Column */}
             <div>
-              <h3 className="text-xl font-semibold mb-4">{t('site.title')}</h3>
+              <h3 className="text-xl font-semibold mb-4">Mannar Urban Council</h3>
               <p className="text-primary-foreground/80 leading-7 mb-4">
-                {t('footer.description')}
+                Serving the vibrant community of Mannar with transparency, efficiency, and dedication since 1987. Building a sustainable and prosperous future together through quality municipal services.
               </p>
               <div className="flex gap-4">
                 {socialLinks.map((social) => {
@@ -53,7 +50,7 @@ export function Footer() {
 
             {/* Quick Links Column */}
             <div>
-              <h3 className="text-xl font-semibold mb-4">{t('footer.quickLinks')}</h3>
+              <h3 className="text-xl font-semibold mb-4">Quick Links</h3>
               <div className="grid grid-cols-2 gap-2">
                 {quickLinks.map((link) => (
                   <a
@@ -69,22 +66,22 @@ export function Footer() {
 
             {/* Contact Column */}
             <div>
-              <h3 className="text-xl font-semibold mb-4">{t('footer.contactInfo')}</h3>
+              <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" />
                   <div className="text-primary-foreground/80">
-                    <p>{t('footer.address')}</p>
-                    <p>{t('footer.addressLine')}</p>
+                    <p>Mannar Urban Council</p>
+                    <p>Main Street, Mannar 41000, Sri Lanka</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 flex-shrink-0" />
-                  <span className="text-primary-foreground/80">{t('topbar.phone')}</span>
+                  <span className="text-primary-foreground/80">+94 23 223 5681</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 flex-shrink-0" />
-                  <span className="text-primary-foreground/80">{t('topbar.email')}</span>
+                  <span className="text-primary-foreground/80">info@mannaruc.gov.lk</span>
                 </div>
               </div>
             </div>
@@ -97,20 +94,14 @@ export function Footer() {
         <div className="container-x">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-sm text-center md:text-left">
-              {t('footer.copyright')}
+              © 2024 Mannar Urban Council. All rights reserved. Built with dedication for our community.
             </p>
             <div className="flex items-center gap-4 text-sm">
-              <a href="#accessibility" className="hover:text-primary-foreground transition-colors">
-                {t('footer.accessibility')}
-              </a>
+              <a href="#accessibility" className="hover:text-primary-foreground transition-colors">Accessibility</a>
               <span>|</span>
-              <a href="#feedback" className="hover:text-primary-foreground transition-colors">
-                {t('footer.feedback')}
-              </a>
+              <a href="#feedback" className="hover:text-primary-foreground transition-colors">Feedback</a>
               <span>|</span>
-              <a href="#help" className="hover:text-primary-foreground transition-colors">
-                {t('footer.help')}
-              </a>
+              <a href="#help" className="hover:text-primary-foreground transition-colors">Help</a>
             </div>
           </div>
         </div>

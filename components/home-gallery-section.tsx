@@ -3,10 +3,8 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { ChevronLeft, ChevronRight, X, ZoomIn, Grid3X3 } from "lucide-react"
-import { useTranslation } from 'next-i18next'
 
 export function HomeGallerySection() {
-  const { t } = useTranslation('common')
   const mainImages = [
     { src: "/mannar-island-beaches-sri-lanka-pristine-coastline.jpg", alt: "Mannar Island Beaches" },
     { src: "/historic-fort-mannar-sri-lanka-colonial-architectu.jpg", alt: "Mannar Fort" },
@@ -98,13 +96,13 @@ export function HomeGallerySection() {
           <div className="text-center mb-12 animate-fade-in-up">
             <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary font-medium mb-4">
               <Grid3X3 size={18} className="mr-2" />
-              {t('gallery.title')}
+              Gallery
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              {t('gallery.title')}
+              Explore Our Gallery
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              {t('gallery.description')}
+              Discover the beauty and heritage of Mannar through our curated collection of images
             </p>
           </div>
 
@@ -329,7 +327,7 @@ export function HomeGallerySection() {
               href="/events/gallery"
               className="inline-flex items-center px-8 py-4 rounded-full bg-primary text-white font-medium text-lg shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
             >
-              {t('gallery.exploreGallery')}
+              Explore Full Gallery
               <ChevronRight size={20} className="ml-2 group-hover:translate-x-1 transition-transform" />
             </a>
           </div>

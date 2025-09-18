@@ -3,14 +3,12 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { ArrowRight, Play, Pause } from "lucide-react"
-import { useTranslation } from 'next-i18next'
 
 type Slide =
   | { type: "video"; src: string; poster?: string }
   | { type: "image"; src: string; alt: string }
 
 export function HeroSection() {
-  const { t } = useTranslation('common')
   const slides: Slide[] = [
     { type: "video", src: "/demo4.webm", poster: "/modern-municipal-building-government-office.jpg" },
     { type: "image", src: "/hero.png", alt: "Mannar island beaches" },
@@ -68,18 +66,18 @@ export function HeroSection() {
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Badge */}
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary/20 backdrop-blur-sm border border-primary/30">
-            <span className="text-sm font-semibold text-primary">{t('hero.badge')}</span>
+            <span className="text-sm font-semibold text-primary">Welcome to Municipal Council</span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
-            {t('hero.title')}
-            <span className="text-primary block mt-2">{t('hero.titleHighlight')}</span>
+            Building a Better
+            <span className="text-primary block mt-2">Community Together</span>
           </h1>
 
           {/* Description */}
           <p className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed">
-            {t('hero.description')}
+            Dedicated to serving our residents with transparency, innovation, and excellence in local governance.
           </p>
 
           {/* CTA Buttons */}
@@ -88,14 +86,14 @@ export function HeroSection() {
               href="#services" 
               className="btn-primary gap-3 font-semibold text-lg px-8 py-4 rounded-xl hover:shadow-lg hover:shadow-primary/25 transition-all duration-300"
             >
-              {t('hero.exploreServices')}
+              Explore Our Services
               <ArrowRight className="w-5 h-5" />
             </a>
             <a 
               href="#contact" 
               className="btn-outline border-2 border-white text-white bg-transparent hover:bg-white hover:text-primary font-medium text-lg px-8 py-4 rounded-xl transition-all duration-300"
             >
-              {t('hero.contactUs')}
+              Contact Us
             </a>
           </div>
         </div>

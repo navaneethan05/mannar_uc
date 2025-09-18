@@ -4,7 +4,6 @@ import Image from "next/image"
 import { Calendar, Clock, MapPin, AlertTriangle, Megaphone, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { events } from "@/lib/data/events"
-import { useTranslation } from 'next-i18next'
 
 // Dummy Data — Events, Notices, Announcements
 
@@ -58,18 +57,16 @@ const announcements = [
 ]
 
 export function EventsSection() {
-  const { t } = useTranslation('common')
-  
   return (
     <section id="events" className="section-x py-16 bg-gradient-to-b from-white to-blue-50">
       <div className="container-x">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-extrabold text-primary mb-4">
-            {t('events.title')}
+            Events & Updates
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            {t('events.description')}
+            Stay informed about upcoming events, public notices, and official announcements from Mannar Urban Council.
           </p>
         </div>
 
@@ -115,7 +112,7 @@ export function EventsSection() {
                       {event.description}
                     </p>
                     <div className="flex items-center text-primary font-medium text-sm hover:underline underline-offset-4 transition-all group-hover:gap-2">
-                      {t('events.learnMore')}
+                      Learn More
                       <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                   </div>
@@ -132,7 +129,7 @@ export function EventsSection() {
                 {/* <div className="w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center">
                   <Megaphone className="w-4 h-4" />
                 </div> */}
-                <h3 className="text-lg font-bold text-primary">{t('events.announcements')}</h3>
+                <h3 className="text-lg font-bold text-primary">Announcements</h3>
               </div>
               <div className="space-y-4">
                 {announcements.map((item) => (
@@ -158,7 +155,7 @@ export function EventsSection() {
                   href="/events/announcements"
                   className="inline-flex items-center text-primary font-medium text-sm hover:gap-1 transition-all"
                 >
-                  {t('events.viewAllAnnouncements')}
+                  View All Announcements
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -170,7 +167,7 @@ export function EventsSection() {
                 {/* <div className="w-8 h-8 bg-primary text-primary-foreground rounded-lg flex items-center justify-center">
                   <AlertTriangle className="w-4 h-4" />
                 </div> */}
-                <h3 className="text-lg font-bold text-primary">{t('events.notices')}</h3>
+                <h3 className="text-lg font-bold text-primary">Notices</h3>
               </div>
               <div className="space-y-4">
                 {notices.map((notice) => (
@@ -204,7 +201,7 @@ export function EventsSection() {
                   href="/events/notices"
                   className="inline-flex items-center text-primary font-medium text-sm hover:gap-1 transition-all"
                 >
-                  {t('events.viewAllNotices')}
+                  View All Notices
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -218,7 +215,7 @@ export function EventsSection() {
             href="/events"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 transition-all shadow-md hover:shadow-lg"
           >
-            {t('events.viewAll')}
+            View All Events & Updates
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

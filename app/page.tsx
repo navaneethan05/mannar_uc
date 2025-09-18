@@ -1,5 +1,3 @@
-import { GetStaticProps } from 'next'
-import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { TopBar } from "@/components/top-bar"
 import { Navigation } from "@/components/navigation"
 import { HeroSection } from "@/components/hero-section"
@@ -30,12 +28,4 @@ export default function HomePage() {
       <Footer />
     </div>
   )
-}
-
-export const getStaticProps: GetStaticProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale ?? 'en', ['common'])),
-    },
-  }
 }

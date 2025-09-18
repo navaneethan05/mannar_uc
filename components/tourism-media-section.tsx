@@ -1,10 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslation } from 'next-i18next';
 
 export function TourismMediaSection() {
-  const { t } = useTranslation('common');
   const [currentVideo, setCurrentVideo] = useState(0);
   
   const videos = [
@@ -39,10 +37,10 @@ export function TourismMediaSection() {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-            {t('tourism.title')}
+            Discover Mannar's Beauty
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            {t('tourism.description')}
+            Explore the hidden gem of Sri Lanka through these captivating videos showcasing Mannar's unique landscapes, culture, and attractions.
           </p>
         </div>
         
@@ -71,19 +69,19 @@ export function TourismMediaSection() {
             
             {/* About Mannar section */}
             <div className="mt-8 p-6 bg-white rounded-xl shadow-md">
-              <h3 className="text-xl font-semibold text-primary mb-4">{t('tourism.aboutMannar')}</h3>
+              <h3 className="text-xl font-semibold text-primary mb-4">About Mannar, Sri Lanka</h3>
               <p className="text-gray-700 leading-relaxed mb-4">
-                {t('tourism.aboutDescription1')}
+                Located in Sri Lanka's Northern Province, Mannar is an island district known for its pristine beaches, rich cultural heritage, and unique biodiversity. The region features historic sites like the Mannar Fort, ancient Baobab trees believed to be over 700 years old, and the famous Adam's Bridge—a chain of limestone shoals connecting Sri Lanka to India.
               </p>
               <p className="text-gray-700 leading-relaxed">
-                {t('tourism.aboutDescription2')}
+                Mannar is a birdwatcher's paradise with numerous migratory species, and its economy is primarily based on fishing, agriculture, and salt production. The district offers a glimpse into authentic Sri Lankan life away from the usual tourist trails, making it an ideal destination for travelers seeking unique experiences.
               </p>
             </div>
           </div>
           
           {/* Video suggestions sidebar */}
           <div className="lg:col-span-1">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">{t('tourism.moreVideos')}</h3>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">More Videos</h3>
             <div className="space-y-4">
               {videos.map((video, index) => (
                 <div 
@@ -119,19 +117,19 @@ export function TourismMediaSection() {
             
             {/* Additional info */}
             <div className="mt-8 p-5 bg-primary/5 rounded-xl border border-primary/10">
-              <h3 className="text-lg font-semibold text-primary mb-3">{t('tourism.travelTips')}</h3>
+              <h3 className="text-lg font-semibold text-primary mb-3">Travel Tips</h3>
               <ul className="text-sm text-gray-700 space-y-2">
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>
-                  {t('tourism.tip1')}
+                  Best time to visit: December to March for bird watching
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>
-                  {t('tourism.tip2')}
+                  Don't miss: The Baobab tree, Mannar Fort, and Talaimannar Pier
                 </li>
                 <li className="flex items-start">
                   <span className="text-primary mr-2">•</span>
-                  {t('tourism.tip3')}
+                  Try local delicacies like fresh seafood and palmyrah products
                 </li>
               </ul>
             </div>
