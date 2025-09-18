@@ -1,35 +1,38 @@
 import { Trash2, FileText, Bell, Globe, Users, ArrowRight, Plus } from "lucide-react"
+import { useTranslation } from 'next-i18next'
 
 export function InfoSection() {
+  const { t } = useTranslation('common')
+  
   const services = [
     {
       icon: Trash2,
-      title: "Garbage Collection",
-      description: "Schedule pickup, report missed collections, and learn about waste management programs in your area.",
+      title: t('info.garbageCollection'),
+      description: t('info.garbageDescription'),
       link: "/info/garbage-collection",
     },
     {
       icon: FileText,
-      title: "Certificates & Permits",
-      description: "Apply for birth certificates, marriage certificates, and other official municipal documents online.",
+      title: t('info.certificates'),
+      description: t('info.certificatesDescription'),
       link: "/info/certificates",
     },
     {
       icon: Bell,
-      title: "Public Notices",
-      description: "Stay informed with the latest municipal announcements, policy changes, and community updates.",
+      title: t('info.publicNotices'),
+      description: t('info.publicNoticesDescription'),
       link: "/info/public-notices",
     },
     {
       icon: Globe,
-      title: "E-Services",
-      description: "Access digital services including online payments, permit applications, and service requests.",
+      title: t('info.eServices'),
+      description: t('info.eServicesDescription'),
       link: "/info/e-services",
     },
     {
       icon: Users,
-      title: "Community Services",
-      description: "Programs for youth, elders, health clinics, and public welfare initiatives.",
+      title: t('info.communityServices'),
+      description: t('info.communityServicesDescription'),
       link: "/info/community-services",
     },
   ]
@@ -40,13 +43,13 @@ export function InfoSection() {
         {/* Main Heading — Now uses #111827 (foreground) on white */}
         <div className="text-center mb-12 animate-fade-in-up">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground leading-tight">
-            Municipal Services & Information
+            {t('info.title')}
           </h1>
           <h2 className="title-x mb-4 text-foreground">
-            Municipal Services & Information
+            {t('info.title')}
           </h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
-            Access essential services and stay informed about municipal programs and initiatives
+            {t('info.description')}
           </p>
         </div>
 
@@ -73,7 +76,7 @@ export function InfoSection() {
                   href={service.link}
                   className="inline-flex items-center text-primary font-medium text-sm hover:gap-2 transition-all"
                 >
-                  Read More
+                  {t('common.readMore')}
                   <ArrowRight className="w-3 h-3" />
                 </a>
               </div>
@@ -91,11 +94,11 @@ export function InfoSection() {
               <Plus className="w-6 h-6 text-primary" />
             </div>
             <h3 className="text-primary font-semibold text-lg mb-2 group-hover:text-primary/80 transition-colors">
-              More Services
+              {t('info.moreServices')}
             </h3>
-            <p className="text-muted-foreground text-sm">Access essential services and stay informed about municipal programs and initiatives</p>
+            <p className="text-muted-foreground text-sm">{t('info.description')}</p>
             <div className="mt-4 inline-flex items-center text-primary text-sm font-medium">
-              View More
+              {t('common.viewMore')}
               <ArrowRight className="w-3 h-3 ml-1" />
             </div>
           </a>
@@ -107,7 +110,7 @@ export function InfoSection() {
             href="/services"
             className="btn-outline text-foreground hover:text-primary hover:bg-primary/5 transition-colors"
           >
-            Browse All Services
+            {t('info.browseAll')}
             <ArrowRight className="w-4 h-4 ml-2" />
           </a>
         </div>

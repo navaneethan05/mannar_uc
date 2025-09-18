@@ -5,6 +5,7 @@ import { useState, useCallback, useRef } from "react"
 import { ChevronDown, ChevronUp, MapPin, Phone, Mail } from "lucide-react"
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api"
 import {ArrowRight} from "lucide-react"
+import { useTranslation } from 'next-i18next'
 
 const containerStyle = {
   width: '100%',
@@ -18,6 +19,7 @@ const defaultCenter = {
 }
 
 export function ContactSection() {
+  const { t } = useTranslation('common')
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -50,20 +52,20 @@ export function ContactSection() {
 
   const faqs = [
     {
-      question: "What are the office hours for municipal services?",
-      answer: "Our main office is open Monday to Friday from 8:00 AM to 4:30 PM. Emergency services are available 24/7. Some specialized services may have different hours.",
+      question: t('contact.faq1.question'),
+      answer: t('contact.faq1.answer'),
     },
     {
-      question: "How can I apply for building permits?",
-      answer: "Building permits can be applied for online through our E-Services portal or in person at our Planning Department. Required documents include architectural plans, site surveys, and completed application forms.",
+      question: t('contact.faq2.question'),
+      answer: t('contact.faq2.answer'),
     },
     {
-      question: "When is garbage collection in my area?",
-      answer: "Garbage collection schedules vary by zone. You can check your collection day by entering your address in our Garbage Collection service or calling our waste management hotline.",
+      question: t('contact.faq3.question'),
+      answer: t('contact.faq3.answer'),
     },
     {
-      question: "How do I report a municipal issue or complaint?",
-      answer: "You can report issues through this contact form, call our hotline, visit our office in person, or use our online complaint portal available 24/7.",
+      question: t('contact.faq4.question'),
+      answer: t('contact.faq4.answer'),
     },
   ]
 
@@ -84,19 +86,21 @@ export function ContactSection() {
   return (
     <section id="contact" className="py-16 bg-gray-50">
       <div className="container-x">
-        <h2 className="title-x text-center mb-12 text-3xl md:text-4xl font-bold text-gray-800">Contact Us</h2>
+        <h2 className="title-x text-center mb-12 text-3xl md:text-4xl font-bold text-gray-800">{t('contact.title')}</h2>
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left - Contact Form Card — Match HeroSection Style */}
           <div className="bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6">Get in Touch</h3>
+            <h3 className="text-2xl font-bold text-gray-800 mb-6">{t('contact.getInTouch')}</h3>
             <p className="text-gray-600 mb-8 leading-relaxed">
-              We'd love to hear from you. Fill out the form below and we'll respond within 1–2 business days.
+              {t('contact.description')}
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('contact.fullName')}
+                </label>
                 <input
                   type="text"
                   id="name"
@@ -111,7 +115,9 @@ export function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('contact.emailAddress')}
+                </label>
                 <input
                   type="email"
                   id="email"
@@ -126,7 +132,9 @@ export function ContactSection() {
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">Message</label>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  {t('contact.message')}
+                </label>
                 <textarea
                   id="message"
                   name="message"
@@ -151,11 +159,11 @@ export function ContactSection() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    Sending...
+                    {t('contact.sending')}
                   </>
                 ) : (
                   <>
-                    Send Message
+                    {t('contact.sendMessage')}
                     <ArrowRight className="w-5 h-5" />
                   </>
                 )}
@@ -167,14 +175,14 @@ export function ContactSection() {
           <div className="space-y-6">
             {/* Contact Info Card */}
             <div className="bg-white rounded-3xl shadow-xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Quick Contact</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">{t('contact.quickContact')}</h3>
               <div className="grid sm:grid-cols-2 gap-6">
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0 p-3 bg-blue-50 rounded-xl">
                     <Phone className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">+94 23 223 5681</p>
+                    <p className="font-medium text-gray-900">{t('topbar.phone')}</p>
                     <p className="text-gray-600 text-sm mt-1">Mon–Fri, 8:00 AM – 4:30 PM</p>
                   </div>
                 </div>
@@ -183,7 +191,7 @@ export function ContactSection() {
                     <Mail className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">info@mannaruc.gov.lk</p>
+                    <p className="font-medium text-gray-900">{t('topbar.email')}</p>
                     <p className="text-gray-600 text-sm mt-1">We reply within 1–2 business days</p>
                   </div>
                 </div>
@@ -192,8 +200,8 @@ export function ContactSection() {
                     <MapPin className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">Mannar Urban Council</p>
-                    <p className="text-gray-600 text-sm mt-1">Main Street, Mannar 41000, Sri Lanka</p>
+                    <p className="font-medium text-gray-900">{t('footer.address')}</p>
+                    <p className="text-gray-600 text-sm mt-1">{t('footer.addressLine')}</p>
                   </div>
                 </div>
               </div>
@@ -204,7 +212,7 @@ export function ContactSection() {
               <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white">
                 <h3 className="text-xl font-bold text-gray-800 flex items-center gap-2">
                   <MapPin className="w-5 h-5 text-primary" />
-                  Find Us On Map
+                  {t('contact.findUs')}
                 </h3>
               </div>
               <div className="relative">
@@ -258,7 +266,7 @@ export function ContactSection() {
 
         {/* FAQs — Match HeroSection Spacing & Feel */}
         <div className="mt-16">
-          <h3 className="text-3xl font-bold text-primary text-center mb-12">Frequently Asked Questions</h3>
+          <h3 className="text-3xl font-bold text-primary text-center mb-12">{t('contact.faqs')}</h3>
           <div className="max-w-4xl mx-auto space-y-4">
             {faqs.map((faq, index) => (
               <div
